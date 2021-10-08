@@ -1,0 +1,259 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'Shopping Cart' | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="returnOrder()" *ngIf="(customerId$ | async) !== '_NA_'">
+        <ion-icon slot="icon-only"  name="arrow-undo"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="scanBarcode()">
+        <ion-icon slot="icon-only"  name="barcode"></ion-icon>
+      </ion-button>
+      <ion-button (click)="options()" *ngIf="cart?.items?.length">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="productSku"
+    ngDefaultControl
+    placeholder="{{'Scan items'|translate:locale.language}}"
+    (keypress)="searchProduct($event)"
+    float="left"
+  >
+  </ion-searchbar>
+  <ng-template
+    [ngIf]="cart?.items?.length !== 0"
+    [ngIfElse]="emptyCart"
+  >
+    <div *ngIf="cart && cart?.items?.length">
+      <ion-item lines="none">
+        <ion-text>
+          <h1>{{ 'Total' | translate:locale.language }}</h1>
+        </ion-text>
+        <!--headline5-->
+        <ion-text slot="end" [color]="cart.grandTotal > 0? 'primary' : 'success'">
+          <h1>
+            {{ (cart?.grandTotal + totalPaymentCredit) | amount | currency: cart?.currencyUom}}
+          </h1>
+        </ion-text>
+      </ion-item>
+      <ion-item-group
+        *ngIf="shoppingCartProvider.ifInStoreItems(cart)"
+      >
+        <ion-item-divider color="light">
+          <ion-icon name="storefront-outline" slot="start"></ion-icon>
+          <ion-label>{{'In store' | translate:locale.language}}</ion-label>
+        </ion-item-divider>
+        <ion-item
+          *ngFor="let product of shoppingCartProvider.getInStoreItems(cart)"
+          (click)="editCartItem(product)" lines="none"
+        >
+          <ion-thumbnail slot="start">
+            <image [src]="product?.imageUrl"></image>
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap">
+            <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+            <h2 [innerHtml]="product?.productName"></h2>
+            <ul
+              *ngIf="product?.features.length > 0"
+              class="feature-list main-feature selected-feature"
+            >
+              <li *ngFor="let feature of product.features; let i = index">
+                <label>{{feature.description}}</label>
+                <span *ngIf="product.features[i+1] !== undefined ">|</span>
+              </li>
+            </ul>
+            <p>{{'Qty' | translate:locale.language }} {{product.quantity}}</p>
+            <p *ngIf="product?.itemAdjustments?.length">
+              {{ product?.itemAdjustments[0]?.description }}
+            </p>
+          </ion-label>
+          <!-- To display the discounted price of the product -->
+          <ion-text>
+            <ion-note
+              slot="end"
+              *ngIf="product?.itemAdjustments?.length"
+              color="danger"
+              class="caption"
+            >
+              {{ product.basePrice | amount | currency:cart?.currencyUom }}
+            </ion-note>
+          </ion-text>
+          <!-- If adjustment exist then display basePrice with danger color otherwise only basePrice will be displayed
+        using getDiscountedPrice method -->
+          <ion-text>
+            <ion-note
+              slot="end"
+              *ngIf="product?.orderItemPriceInfos?.length"
+              color="danger"
+              class="caption"
+            >
+              {{ product.listPrice | amount | currency:cart?.currencyUom }}
+            </ion-note>
+          </ion-text>
+          <ion-note slot="end" class="caption" *ngIf="product?.basePrice">
+            {{ shoppingCartProvider.getDiscountedPrice(product.basePrice,
+            product.itemAdjustments) | amount | currency:
+            cart?.currencyUom}}
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group
+        *ngIf="shoppingCartProvider.ifDeliveryItems(cart)"
+      >
+        <ion-item-divider color="light">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-label>{{'Delivery' | translate:locale.language}}</ion-label>
+        </ion-item-divider>
+        <ion-item
+          *ngFor="let product of shoppingCartProvider.getDeliveryItems(cart)"
+          (click)="editCartItem(product)" lines="none"
+        >
+          <ion-thumbnail slot="start">
+            <image [src]="product?.imageUrl"></image>
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap">
+            <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+            <h2 [innerHtml]="product?.productName"></h2>
+            <ul
+              *ngIf="product?.features.length > 0"
+              class="feature-list main-feature selected-feature"
+            >
+              <li *ngFor="let feature of product.features; let i = index">
+                <label>{{feature.description}}</label>
+                <span *ngIf="product?.features[i+1] !== undefined ">|</span>
+              </li>
+            </ul>
+            <p>{{'Qty' | translate:locale.language }} {{product.quantity}}</p>
+            <p>{{ product?.address}}</p>
+            <p *ngIf="product?.itemAdjustments?.length">
+              {{ product?.itemAdjustments[0]?.description }}
+            </p>
+          </ion-label>
+          <!-- To display the discounted price of the product -->
+          <ion-text>
+            <ion-note
+              slot="end"
+              *ngIf="product?.itemAdjustments?.length"
+              color="danger"
+              class="caption"
+            >
+              {{ product.basePrice | amount | currency:cart?.currencyUom }}
+            </ion-note>
+          </ion-text>
+          <!-- If adjustment exist then display basePrice with danger color otherwise only basePrice will be displayed
+        using getDiscountedPrice method -->
+          <ion-text>
+            <ion-note
+              slot="end"
+              *ngIf="product?.orderItemPriceInfos?.length"
+              color="danger"
+              class="caption"
+            >
+              {{ product.listPrice | amount | currency:cart?.currencyUom }}
+            </ion-note>
+          </ion-text>
+          <ion-note slot="end" class="caption" *ngIf="product?.basePrice">
+            {{ shoppingCartProvider.getDiscountedPrice(product.basePrice,
+            product.itemAdjustments) | amount | currency:
+            cart?.currencyUom}}
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group
+        *ngIf="shoppingCartProvider.ifStorePickupItems(cart)"
+      >
+        <ion-item-divider color="light">
+          <ion-icon name="map-outline" slot="start"></ion-icon>
+          <ion-label>{{'Pick up items' | translate:locale.language}}</ion-label>
+        </ion-item-divider>
+        <ion-item
+          *ngFor="let product of shoppingCartProvider.getStorePickupItems(cart)"
+          (click)="editCartItem(product)" lines="none"
+        >
+          <ion-thumbnail slot="start" *ngIf="product && product.imageUrl">
+            <image [src]="product?.imageUrl"></image>
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap">
+            <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+            <h2 [innerHtml]="product?.productName"></h2>
+            <ul
+              *ngIf="product?.features?.length > 0"
+              class="feature-list main-feature selected-feature"
+            >
+              <li *ngFor="let feature of product?.features; let i = index">
+                <label>{{feature.description}}</label>
+                <span *ngIf="product?.features[i+1] !== undefined ">|</span>
+              </li>
+            </ul>
+            <p>{{'Qty' | translate:locale.language }} {{product.quantity}}</p>
+            <p>{{ product?.facilityName}}</p>
+            <p *ngIf="product?.itemAdjustments?.length">
+              {{ product?.itemAdjustments[0]?.description }}
+            </p>
+          </ion-label>
+          <!-- To display the discounted price of the product -->
+          <ion-text>
+            <ion-note
+              slot="end"
+              *ngIf="product?.itemAdjustments?.length"
+              color="danger"
+              class="caption"
+            >
+              {{ product.basePrice | amount | currency:cart?.currencyUom }}
+            </ion-note>
+          </ion-text>
+          <!-- If adjustment exist then display basePrice with danger color otherwise only basePrice will be displayed
+        using getDiscountedPrice method -->
+          <ion-text>
+            <ion-note
+              slot="end"
+              *ngIf="product?.orderItemPriceInfos?.length"
+              color="danger"
+              class="caption"
+            >
+              {{ product.listPrice | amount | currency:cart?.currencyUom }}
+            </ion-note>
+          </ion-text>
+          <ion-note slot="end" class="caption" *ngIf="product?.basePrice">
+            {{ shoppingCartProvider.getDiscountedPrice(product.basePrice,
+            product.itemAdjustments) | amount | currency:
+            cart?.currencyUom}}
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item *ngIf="totalPaymentCredit !== 0">
+        {{ 'Return Credit' | translate:locale.language }}
+        <ion-text>
+          <ion-note
+            slot="end"
+            class="caption"
+            color="success"
+          >
+            {{ totalPaymentCredit | amount | currency: cart?.currencyUom}}
+          </ion-note>
+        </ion-text>
+      </ion-item>
+    </div>
+    <ion-fab slot="fixed"
+      vertical="bottom"
+      class="extended-fab"
+      *ngIf="cart && cart?.items?.length"
+    >
+      <ion-fab-button
+        *ngIf="cart?.items?.length"
+        (click)="payment()"
+        color="primary"
+      >
+        {{'Proceed to Checkout'| translate:locale.language}}
+      </ion-fab-button>
+    </ion-fab>
+  </ng-template>
+  <ng-template #emptyCart>
+    <ion-item class="ion-text-center empty-state-text" lines="none">
+      <h3>{{ 'Scan a barcode or go to a product page to add them to the cart' | translate:locale.language }}</h3>
+    </ion-item>
+  </ng-template>
+</ion-content>

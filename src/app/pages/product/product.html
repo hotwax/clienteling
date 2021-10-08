@@ -1,0 +1,253 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Product Detail' | translate:locale.language}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- product over-view-->
+  <ion-slides loop="true" pager="true" *ngIf="product?.media_gallery?.length > 1 ; else singleImage">
+    <ion-slide *ngFor="let additionalImage of product?.media_gallery">
+      <image class="detail-img" [src]="additionalImage?.image"></image>
+    </ion-slide>
+  </ion-slides>
+  <ng-template #singleImage>
+    <image
+      class="detail-img"
+      *ngIf="product?.images?.large || product?.images?.main?.large"
+      [src]="product?.images?.large ? product?.images?.large : product?.images?.main?.large"
+    ></image>
+  </ng-template>
+  <ion-item lines="none">
+    <ion-label class="ion-text-wrap">
+      <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+      <h1
+        [innerHtml]="product?.name ? product?.name : product?.productName"
+        text-wrap>
+      </h1>
+    </ion-label>
+    <ion-label class="ion-text-end">
+      <ion-note>
+        <ion-text [color]="product?.price?.specialPrice ? 'danger' : ''">
+          <h1>
+            {{ ((product?.price?.specialPrice && product?.price?.basePrice) ? product?.price?.specialPrice : product?.price?.basePrice) | currency:cart?.currencyUom }}
+          </h1>
+        </ion-text>
+      </ion-note>
+      <ion-label *ngIf="product?.price?.specialPrice && product?.price?.basePrice">
+        <ion-note class="line-through">{{ product?.price?.basePrice | currency:cart?.currencyUom }}</ion-note>
+        <span> | </span>
+        <ion-note>
+          {{ productProvider.getDiscountPercentage(product?.price?.basePrice, product?.price?.specialPrice) | percent:'2.2' }}
+        </ion-note>
+      </ion-label>
+    </ion-label>
+    <!-- <ionic3-star-rating
+      *ngIf="reviews?.aggregatedRating?.averageRating > 0"
+      activeIcon="ios-star"
+      defaultIcon="ios-star-outline"
+      activeColor="orange"
+      defaultColor="orange"
+      readonly="true"
+      [rating]="reviews?.aggregatedRating?.averageRating"
+    ></ionic3-star-rating> -->
+  </ion-item>
+  <div *ngIf="productProvider.getKeys(productFeatures).length">
+    <ion-list *ngIf="productFeatures[primaryFeature]">
+      <ion-list-header class="capitalize-feature">
+        <ion-label>{{primaryFeature | lowercase}}</ion-label>
+      </ion-list-header>
+      <ion-item lines="none">
+        <ion-label text-wrap>
+          <ion-chip
+            item-content
+            [ngClass]="feature.status"
+            [@chipAnimation]="feature.status"
+            *ngFor="let feature of productFeatures[primaryFeature]"
+            (click)="setFeature(primaryFeature, feature)"
+          >
+            <ion-label>{{feature.description}}</ion-label>
+          </ion-chip>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-list
+      *ngFor="let featureId of  productProvider.getKeys(productFeatures)"
+    >
+      <div *ngIf="featureId !== primaryFeature">
+        <ion-list-header class="capitalize-feature">
+          <ion-label>{{featureId | lowercase}}</ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <ion-label text-wrap>
+            <ion-chip
+              item-content
+              [ngClass]="feature.status"
+              [@chipAnimation]="feature.status"
+              *ngFor="let feature of productFeatures[featureId]"
+              (click)="setFeature(featureId, feature)"
+            >
+              <ion-label>{{feature.description}}</ion-label>
+            </ion-chip>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
+  <!--<ion-item lines="none" padding-horizontal>
+      <p slot="start">{{'Back' | translate:locale.language}}</p>
+      <ion-note slot="end">
+        <p class="caption">Out of Stock</p>
+      </ion-note>
+    </ion-item>-->
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="addToCart()">
+      {{ 'Add to Cart' | translate:locale.language }}
+    </ion-button>
+  </div>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>{{'Locations' | translate:locale.language}}</ion-label>
+    </ion-list-header>
+    <ion-item lines="none">
+      <ion-icon name="storefront-outline" slot="start"></ion-icon>
+      {{'In store' | translate:locale.language}}
+      <ion-note
+        slot="end"
+        *ngIf="productStock === undefined"
+        class="caption">
+        {{ 'Checking inventory...' | translate:locale.language }}
+      </ion-note>
+      <ion-note
+        slot="end"
+        *ngIf="productStock <= 0"
+        color="danger"
+        class="caption">
+        {{ 'Out of Stock'| translate:locale.language }}
+      </ion-note>
+      <ion-note
+        slot="end"
+        *ngIf="productStock > 0"
+        color="success"
+        class="caption">
+        {{ productStock }} {{ 'In store'| translate:locale.language }}
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none" detail (click)="storeLocator()">
+      <ion-icon name="map-outline" slot="start"></ion-icon>
+      {{'Other stores' | translate:locale.language}}
+    </ion-item>
+  </ion-list>
+  <div class="ion-padding">
+    <ion-button expand="block" fill="outline" (click)="shipToStore()">
+      {{ 'Ship to store' | translate:locale.language }}
+      <ion-icon slot="start" name="arrow-down-outline"></ion-icon>
+    </ion-button>
+  </div>
+  <!--
+      As discussed with Deepak Dixit, not allowing anonymous user for adding shipping address.
+     -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{'Delivery' | translate:locale.language}} </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label text-wrap>
+        <ion-chip item-content (click)="addAddress()" id="address-chip">
+          <ion-icon name="add-outline"></ion-icon>
+          <ion-label text-center>{{ 'Address' | translate:locale.language}}</ion-label>
+        </ion-chip>
+        <ion-chip
+          item-content
+          (click)="shipToAddress(address)"
+          *ngFor="let address of deliveryAddress"
+        >
+          <ion-label text-center
+            >{{address.address1 | truncate : 20}}</ion-label
+          >
+        </ion-chip>
+      </ion-label>
+    </ion-card-content>
+  </ion-card>
+  <!-- Product description -->
+  <!-- TODO use only description as APIs are consistent -->
+  <ion-card *ngIf="product?.description || product?.longDescriptionContent">
+    <ion-card-header>
+      <ion-card-title>{{'Description' | translate:locale.language}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- TODO use only description as APIs are consistent -->
+      <p
+        [innerHtml]="product?.description ? product?.description : product?.longDescriptionContent"
+      ></p>
+    </ion-card-content>
+  </ion-card>
+  <div *ngFor="let attribute of product?.custom_attributes">
+    <ion-card *ngIf="attribute?.attribute_code == 'COMPOSITION' && attribute?.value">
+      <ion-card-header>
+        <ion-card-title>{{ 'Composition' | translate:locale.language}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p [innerHtml]="attribute?.value"></p>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="attribute?.attribute_code == 'INSTRUCTIONS' && attribute?.value">
+      <ion-card-header>
+        <ion-card-title>{{ 'Washing instructions' | translate:locale.language}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p [innerHtml]="attribute?.value"></p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <!-- product rating -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{'Ratings & Reviews' | translate:locale.language}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item
+        lines="none"
+        *ngIf="reviews?.review.length > 0 ; else noReviews"
+        (click)="viewProductReviews()"
+      >
+        <span *ngIf="(reviews?.aggregatedRating?.averageRating) > 0">
+          <h2>{{getAvgRating(reviews?.aggregatedRating?.averageRating)}}</h2>
+          <!--h2-->
+          <p>{{'Out of 5'|translate:locale.language | lowercase}}</p>
+        </span>
+        <ion-note slot="end" class="caption">
+          {{reviews.aggregatedRating.reviewCount}} {{
+          (reviews.aggregatedRating.reviewCount > 1 ? 'Reviews' : 'Review')
+          | translate:locale.language}}<!--caption-->
+        </ion-note>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ng-template #noReviews>
+    <p l10nTranslate>This product hasn't received ratings or reviews yet.</p>
+  </ng-template>
+  <div *ngIf="alternateProducts?.length > 0">
+    <ion-item lines="none">
+      <p class="overline">{{'Colors' | translate:locale.language}}</p>
+    </ion-item>
+    <ion-slides [options]="slideOpts">
+      <ion-slide *ngFor="let alternateProduct of alternateProducts">
+        <product-card [product]="alternateProduct" [storePreviousProduct]="true"></product-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <div *ngIf="browsedProducts?.length > 0">
+    <ion-item lines="none">
+      <p class="overline">{{'Browsed' | translate:locale.language}}</p>
+    </ion-item>
+    <ion-slides slidesPerView="2.1" spaceBetween="-16">
+      <ion-slide *ngFor="let browsedProduct of browsedProducts">
+        <product-card [product]="browsedProduct" [storePreviousProduct]="true"></product-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+</ion-content>

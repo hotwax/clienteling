@@ -1,0 +1,6 @@
+---
+title: Fixed an issue where searched keyword not persist in the searchbar
+ticket_id: "#2zpb6u"
+merge_request: 557
+author: Humera Khan
+type: other

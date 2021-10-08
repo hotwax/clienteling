@@ -1,0 +1,7 @@
+---
+title: Implemented ship-to-store functionality by adding ship-to-store button on
+  product page and navigate to shipping form with store address
+ticket_id: "#2hcvfe"
+merge_request: 845
+author: Humera Khan
+type: added

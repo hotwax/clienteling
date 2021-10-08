@@ -1,0 +1,6 @@
+---
+title: Fixed - Added missing uiLabel for store.
+ticket_id: "#39ppyz"
+merge_request: https://git.hotwax.co/plugins/mobile-sdk/ionic/Clienteling/merge_requests/599
+author: Ashish Suhane
+type: fixed

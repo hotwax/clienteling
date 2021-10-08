@@ -1,0 +1,6 @@
+---
+title: Replace image render from component instead of it directly render by img tag
+ticket_id: "#3nqayc"
+merge_request: 657
+author: Madhuri Sharma
+type: other

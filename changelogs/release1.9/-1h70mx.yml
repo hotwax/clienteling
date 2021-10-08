@@ -1,0 +1,7 @@
+---
+title: Fixed an issue of spacing on payment card by wrapping in ion-item with no-padding
+  attribute
+ticket_id: "#1h70mx"
+merge_request: 727
+author: Humera Khan
+type: fixed

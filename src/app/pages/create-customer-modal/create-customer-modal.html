@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{'Create Customer' | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="createCustomer(createCustomerForm.value)"
+        [disabled]="!createCustomerForm.valid"
+      >
+        {{'Save' | translate:locale.language}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="createCustomerForm">
+    <ion-item>
+      <ion-label>{{ 'First Name' | translate:locale.language }}</ion-label>
+      <ion-input type="text" formControlName="firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'Last Name' | translate:locale.language }}</ion-label>
+      <ion-input type="text" formControlName="lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'Email' | translate:locale.language }}</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'Phone number' | translate:locale.language }}</ion-label>
+      <ion-input
+        [(ngModel)]="phoneNumber"
+        type="tel"
+        maxlength="14"
+        formControlName="phoneNumber"
+      ></ion-input>
+    </ion-item>
+  </form>
+</ion-content>

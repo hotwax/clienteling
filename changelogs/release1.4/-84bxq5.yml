@@ -1,0 +1,6 @@
+---
+title: Replace “tender” with the total amount due and use danger and success colors on amount being tendered and update condition also to add success and danger color.
+ticket_id: "#84bxq5"
+merge_request: https://git.hotwax.co/plugins/mobile-sdk/ionic/Clienteling/merge_requests/604/diffs
+author: Ashish Suhane
+type: other

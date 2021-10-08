@@ -1,0 +1,6 @@
+---
+title: fixed existing logic of in-store filter
+ticket_id: "#177k1k"
+merge_request: 680
+author: Ashish Suhane
+type: Bug fix

@@ -1,0 +1,10 @@
+page-customer {
+  text-avatar,
+  text-avatar::after {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .scroll-content {
+    margin: 56px 0px;
+  }
+}

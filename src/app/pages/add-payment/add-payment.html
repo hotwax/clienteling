@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title
+      >{{ 'Add' | translate:locale.language }} {{ data.paymentMethodName | translate:locale.language }}</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button
+        [disabled]="paymentProvider.enteredAmount == 0"
+        (click)="addPayment(paymentProvider.enteredAmount)"
+      >
+        {{ 'Save' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="none">
+    <ion-label
+      >{{data.maxAmount | amount |
+      currency: currencyUom }}</ion-label
+    >
+    <ion-text>
+<ion-input
+     
+      color="{{ ( paymentProvider.enteredAmount == data.maxAmount ) ? 'success' : 'danger'}}"
+      [value]="paymentProvider.enteredAmount| amount |currency: currencyUom"
+      readonly="true"
+    ></ion-input>
+</ion-text>
+    <ion-button
+      fill="clear"
+      slot="end"
+      class="close"
+      color="dark"
+      (click)="paymentProvider.enteredAmount = 0;"
+    >
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <div class="ion-padding">
+    <ion-button fill="outline" expand="block" text-center (click)="addTenderAmount()">
+      {{ 'Tender' | translate:locale.language }} {{ (paymentProvider.tenderAmount > 0 ?
+      paymentProvider.tenderAmount : 0 ) | amount |
+      currency: currencyUom }}
+    </ion-button>
+    <page-number-pad></page-number-pad>
+  </div>
+</ion-content>

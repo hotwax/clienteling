@@ -1,0 +1,7 @@
+---
+title: Fixed an issue where loader continous running, if we dont get any response
+  in wms-orders or readytoshiporders API
+ticket_id: "#1vcf1a"
+merge_request: 785
+author: Humera Khan
+type: fixed

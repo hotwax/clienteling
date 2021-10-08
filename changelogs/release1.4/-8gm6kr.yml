@@ -1,0 +1,7 @@
+---
+title: Improved filter chips for order history, by default none of them should be
+  selected
+ticket_id: "#8gm6kr"
+merge_request: 632
+author: Humera Khan
+type: other

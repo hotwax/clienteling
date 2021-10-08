@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Create Customer' | translate:locale.language}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="createCustomerForm">
+    <ion-item>
+      <ion-label>{{ 'First Name' | translate:locale.language }}</ion-label>
+      <ion-input type="text" formControlName="firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'Last Name' | translate:locale.language }}</ion-label>
+      <ion-input type="text" formControlName="lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'Email' | translate:locale.language }}</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'Phone number' | translate:locale.language }}</ion-label>
+      <ion-input
+        [(ngModel)]="phoneNumber"
+        type="tel"
+        maxlength="14"
+        formControlName="phoneNumber"
+      ></ion-input>
+    </ion-item>
+  </form>
+  <ion-fab slot="fixed" vertical="bottom" class="extended-fab">
+    <ion-fab-button
+     
+      [disabled]="!createCustomerForm.valid"
+      *ngIf="cart.items.length"
+      (click)="createCustomer(createCustomerForm.value)"
+      color="primary"
+    >
+      {{'Continue'| translate:locale.language}}
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,6 @@
+---
+title: Fixed continues loader running on the screen after creating a new customer
+ticket_id: "#19ba6v"
+merge_request: 708
+author: Aditya Sharma
+type: fixed

@@ -1,0 +1,7 @@
+---
+title: Improved displaying of feature on editCartItem page by removing the unselected
+  features, as per the updated mockup only selected features will be displayed
+ticket_id: "#8chkud"
+merge_request: 615
+author: Humera Khan
+type: other

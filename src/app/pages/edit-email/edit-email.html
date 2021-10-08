@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{((data?.primaryEmail && data?.primaryEmail?.infoString) ? 'Edit email address' : 'Add email address' ) | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="!isValid" (click)="editEmail()">
+        {{ 'Save' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label>{{ 'Email' | translate:locale.language}}</ion-label>
+    <ion-input
+      type="email"
+      [ngModel]="emailAddress"
+      (ngModelChange)="emailAddress=$event"
+      (input)="validateEmail(emailAddress)"
+      #autoFocus
+    ></ion-input>
+  </ion-item>
+</ion-content>

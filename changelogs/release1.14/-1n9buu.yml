@@ -1,0 +1,6 @@
+---
+title: Fixed an issue where newly added phoneNumber not displayed on shipping form
+ticket_id: "#1n9buu"
+merge_request: 799
+author: Humera Khan
+type: fixed

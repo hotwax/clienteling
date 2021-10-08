@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'Stores' | translate:locale.language }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="setStore(selectedStore)"
+        [disabled]="!isStoreSelected"
+      >
+        {{ 'Save' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    placeholder="{{'Search stores'| translate:locale.language}}"
+    (ionInput)="getFilteredStore($event)"
+  >
+  </ion-searchbar>
+  <ion-list [(ngModel)]="selectedStore" (ionChange)="checkStatus()">
+    <ion-radio-group>
+    <ion-item *ngFor="let store of filteredStore">
+      <ion-label>{{store?.storeName}}</ion-label>
+      <ion-radio slot="start" [value]="store"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-list>
+</ion-content>

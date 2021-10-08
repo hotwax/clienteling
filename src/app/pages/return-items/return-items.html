@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Select items' | translate:locale.language}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="none">
+    <ion-label class="ion-text-wrap">
+      <h1>{{order.partName}}</h1>
+      <p>{{order.orderId}}</p>
+    </ion-label>
+    <ion-note slot="end" class="caption">
+      {{ order?.status }}
+    </ion-note>
+  </ion-item>
+  <ion-card *ngFor="let item of order?.items">
+    <ion-card-content>
+      <ion-item no-padding lines="none">
+        <ion-thumbnail slot="start">
+          <image [src]="item?.image"></image>
+        </ion-thumbnail>
+        <h2 [innerHtml]="item?.itemDescription" text-wrap></h2>
+        <ion-note slot="end"
+          >{{item?.itemTotal | currency: order?.currencyUomId}}</ion-note
+        >
+      </ion-item>
+      <ion-label text-wrap>
+        <ion-chip item-content>
+          <ion-icon name="color-palette-outline"></ion-icon>
+          <ion-label text-center>{{item?.color}}</ion-label>
+        </ion-chip>
+        <ion-chip item-content>
+          <ion-icon name="resize-outline"></ion-icon>
+          <ion-label text-center>{{item?.size}}</ion-label>
+        </ion-chip>
+        <ion-chip item-content *ngIf="item.posfacilityName">
+          <ion-icon name="storefront-outline" slot="start"></ion-icon>
+          <ion-label text-center>{{item.posfacilityName}}</ion-label>
+        </ion-chip>
+        <ion-chip item-content *ngIf="item.facilityName">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label text-center>{{item.facilityName}}</ion-label>
+        </ion-chip>
+        <ion-chip item-content *ngIf="item.shippingAddress?.address1">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-label text-center>{{item.shippingAddress?.address1}}</ion-label>
+        </ion-chip>
+      </ion-label>
+      <!--
+        Currently, We are not having support of shipping and tax at item level. 
+        So we comment it for now. 
+      -->
+      <!-- <ion-item>
+        <p slot="start">
+          {{ 'Shipping' | translate:locale.language}}
+        </p>
+        <ion-note slot="end" color="primary">
+          $0.00
+        </ion-note>
+      </ion-item> -->
+      <!-- <ion-item>
+        <p slot="start">
+          {{ 'Tax' | translate:locale.language }}
+        </p>
+        <ion-note slot="end" color="primary">
+          $0.00
+        </ion-note>
+      </ion-item> -->
+      <ion-item lines="none">
+        <p slot="start">{{ 'Total' | translate:locale.language }}</p>
+        <ion-note slot="end" color="primary">
+          {{item?.itemTotal | currency: order?.currencyUomId}}
+        </ion-note>
+      </ion-item>
+    </ion-card-content>
+    <ion-item class="border-top">
+      <ion-label>{{ ((item.returnableTotal == 0 && item.returnableQuantity == 0) ? 'This item cannot be returned' : 'Return this item') | translate:locale.language }}</ion-label>
+      <ion-checkbox
+        [disabled]="item.returnableTotal == 0 && item.returnableQuantity == 0"
+        (ionChange)="selectReturnItem(item)"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-card>
+  <ion-list>
+    <ion-item>
+      <ion-label>{{ 'Return reason' | translate:locale.language }}</ion-label>
+      <ion-select
+        multiple="false"
+        [(ngModel)]="selectedReason"
+        [disabled]="selectedItems.length === 0"
+      >
+        <ion-select-option
+          *ngFor="let reason of customerDataProvider.returnReasons"
+          [value]="reason.id"
+          >{{reason.label}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input
+        [disabled]="selectedItems.length === 0"
+        placeholder="{{ 'Add a note' | translate:locale.language }}"
+        type="text"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="ion-padding">
+    <ion-button
+      expand="block"
+      [disabled]="(selectedReason === '' && selectedItems.length === 0)"
+      (click)="initReturn()"
+    >
+      {{'Process Refund' | translate:locale.language}}
+    </ion-button>
+  </div>
+</ion-content>

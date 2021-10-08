@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'Search Customer' | translate:locale.language }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="keyword"
+    ngDefaultControl
+    #autoFocus
+    placeholder="{{'Search Customer'| translate:locale.language}}"
+    (keypress)="searchCustomer($event)"
+    (ionClear)="clearSearchbar()"
+  >
+  </ion-searchbar>
+  <ion-list>
+    <ion-item lines="none" *ngIf="keyword && isSearched" (click)="createCustomer()">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      {{ keyword }}
+    </ion-item>
+    <ion-item
+      lines="none"
+      *ngFor="let customer of customers"
+      (click)="getCustomerDetail(customer.partyId)"
+    >
+      <ion-label>
+        <text-avatar slot="start" [text]="customer?.partyName"></text-avatar>
+        <h2 text-capitalize>{{customer.partyName}}</h2>
+        <p *ngIf="customer.contactPhoneNumbers ">
+          {{customer.contactPhoneNumbers | checkPhoneNumber : 'PRIMARY_PHONE'}}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="loadMoreCustomer($event,keyword)">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

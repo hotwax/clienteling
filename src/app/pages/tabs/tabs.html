@@ -1,0 +1,20 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="search"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="customer">
+      <ion-icon name="people"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="order-fulfillment">
+      <ion-icon name="infinite"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="shopping-cart">
+      <ion-icon name="cart"></ion-icon>
+      <ion-badge>{{ itemCount$ | async }}</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="settings">
+      <ion-icon name="menu"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

@@ -1,0 +1,42 @@
+export interface OrderAdjustments {
+  customerReferenceId: string;
+  correspondingProductId: string;
+  orderId: string;
+  createdStamp: string;
+  includeInShipping: null;
+  description: string;
+  exemptAmount: null;
+  productPromoId: string;
+  taxAuthPartyId: string;
+  lastModifiedByUserLogin: string;
+  oldPercentage: string;
+  primaryGeoId: string;
+  taxAuthGeoId: string;
+  originalAdjustmentId: string;
+  secondaryGeoId: string;
+  createdByUserLogin: string;
+  orderAdjustmentId: string;
+  amountAlreadyIncluded: string;
+  orderItemSeqId: string;
+  lastUpdatedStamp: string;
+  amount: string;
+  comments: null;
+  recurringAmount: string;
+  lastModifiedDate: string;
+  sourceReferenceId: string;
+  createdTxStamp: any;
+  orderAdjustmentTypeId: string;
+  productPromoRuleId: string;
+  isManual: string;
+  productFeatureId: string;
+  taxAuthorityRateSeqId: string;
+  overrideGlAccountId: string;
+  oldAmountPerQuantity: string;
+  //TODO: Type should be defined
+  lastUpdatedTxStamp: any;
+  shipGroupSeqId: string;
+  includeInTax: string;
+  createdDate: any;
+  productPromoActionSeqId: string;
+  sourcePercentage: string;
+}

@@ -1,0 +1,7 @@
+---
+title: Implemented registerQuickSale functionality by integrating createProductVariance
+  API along with the configurable sale reason
+ticket_id: "#23935f-master"
+merge_request: 821
+author: Humera Khan
+type: added

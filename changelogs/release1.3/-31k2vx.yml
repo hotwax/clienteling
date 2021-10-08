@@ -1,0 +1,6 @@
+---
+title: 'Added Pre commit hook using husky to check lint issues'
+ticket_id: "#31k2vx"
+merge_request: 561
+author: Aditya Sharma
+type: other

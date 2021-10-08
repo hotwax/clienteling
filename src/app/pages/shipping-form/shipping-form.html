@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{'Shipping' | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="saveReservationForm(reservationForm)"
+        [disabled]="!isValid"
+      >
+        {{'Save' | translate:locale.language}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{'Delivery' | translate:locale.language}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">
+        <p>{{ data?.address}}</p>
+      </ion-label>
+    </ion-card-content>
+  </ion-card>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="reservationForm.payment" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{'Payment' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item lines="none">
+        <ion-radio value="payNow" slot="start"></ion-radio>
+        <ion-label>{{'Pay Now' | translate:locale.language}}</ion-label>
+      </ion-item>
+      <!-- <ion-item>
+        <ion-radio value="payOnPickup" slot="start"></ion-radio>
+        <ion-label>{{'Pay at pickup' | translate:locale.language}}</ion-label>
+      </ion-item> -->
+    </ion-radio-group>
+  </ion-list>
+  <!-- <div padding class="border-horizontal">
+    <p> {{'Trustee' | translate:locale.language}}</p>
+    <ion-list radio-group [(ngModel)]="reservationForm.trusteeName" (ionChange)="checkstatus()">
+      <ion-item lines="none" *ngIf="cart?.billToCustomerPartyId !== '_NA_'">
+        <ion-radio [value]="cart?.customer?.partyName" slot="start"></ion-radio>
+        <ion-label>{{cart?.billToCustomerPartyId !== '_NA_' ?
+          cart?.customer?.partyName : 'Name of trustee'|translate:locale.language}}</ion-label>
+      </ion-item>
+      <ion-item lines="none" class="radio-inline" (ionChange)="checkstatus()">
+        <ion-radio value="enteredName" slot="start"></ion-radio>
+        <ion-input placeholder="{{ 'Name of trustee' | translate:locale.language }}" type="text" [(ngModel)]="trustee"
+          (click)="reservationForm.trusteeName = 'enteredName'" (input)="validateField(trustee,'name')"></ion-input>
+      </ion-item>
+    </ion-list>
+  </div> -->
+  <ion-list (ionChange)="checkstatus()">
+    <ion-radio-group [(ngModel)]="reservationForm.phoneNumber" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{'Contact Number' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item lines="none" *ngIf="data?.phoneNumber">
+        <ion-radio
+          [value]="data?.phoneNumber"
+          slot="start"
+        ></ion-radio>
+        <ion-label
+          (click)="reservationForm.phoneNumber = data?.phoneNumber"
+          >{{data?.phoneNumber|
+          phone}}</ion-label
+        >
+      </ion-item>
+      <ion-item lines="none" (ionChange)="checkstatus()">
+        <ion-radio value="enteredNumber" slot="start"></ion-radio>
+        <ion-input
+          placeholder="{{ 'Phone number' | translate:locale.language }}"
+          type="tel"
+          maxLength="14"
+          [ngModel]="phoneNumber | phone"
+          ngDefaultControl
+          (ngModelChange)="phoneNumber=$event"
+          (click)="reservationForm.phoneNumber = 'enteredNumber'"
+          (input)="validateField(phoneNumber,'phoneNumber')"
+        >
+        </ion-input>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="reservationForm.deliveryInDays" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{ 'Delivery Options' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item (click)="reservationForm.deliveryInDays = 'five'">
+        <ion-radio value="five" checked="true" slot="start"></ion-radio>
+        <ion-label>5-7 days</ion-label>
+        <ion-note slot="end" class="caption">{{ 'Free'| translate:locale.language }}</ion-note>
+      </ion-item>
+      <ion-item (click)="reservationForm.deliveryInDays = 'two'">
+        <ion-radio value="two" slot="start"></ion-radio>
+        <ion-label>2-3 days</ion-label>
+        <ion-note slot="end" class="caption">{{ 'Free'| translate:locale.language }}</ion-note>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

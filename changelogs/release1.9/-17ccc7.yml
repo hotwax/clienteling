@@ -1,0 +1,7 @@
+---
+title: Fixed an issue where empty-state-image overlaps the searchbar on cart and store
+  locator page
+ticket_id: "#17ccc7"
+merge_request: 720
+author: Humera Khan
+type: fixed

@@ -1,0 +1,7 @@
+---
+title: Added item-start attribute on ion-icon to avoid the space inconsistency between
+  iocn and label
+ticket_id: "#2xr3a8"
+merge_request: 541
+author: Humera Khan
+type: other

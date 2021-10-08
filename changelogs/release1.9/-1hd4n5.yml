@@ -1,0 +1,6 @@
+---
+title: Fixed flickering issue while infinite scrolling on bopis tab
+ticket_id: "#1hd4n5"
+merge_request: 736
+author: Humera Khan
+type: fixed

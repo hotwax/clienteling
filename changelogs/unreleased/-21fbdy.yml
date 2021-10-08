@@ -1,0 +1,7 @@
+---
+title: Improved spinner should be visible only when there is an API call for product
+  detail page navigation
+ticket_id: "#21fbdy"
+merge_request: 806
+author: Aditya Sharma
+type: changed

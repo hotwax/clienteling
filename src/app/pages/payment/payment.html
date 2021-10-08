@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Payment'| translate:locale.language }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-text>
+      <h1>{{ 'Total' | translate:locale.language }}</h1>
+    </ion-text>
+    <ion-text color="primary" slot="end">
+      <h1>
+        {{ paymentProvider.totalAmount - totalPaymentCredit | amount
+        |currency: cart?.currencyUom }}
+      </h1>
+    </ion-text>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-text>
+      <ion-label>{{ 'Balance' | translate:locale.language}}</ion-label>
+    </ion-text>
+    <ion-text slot="end" color="{{paymentProvider.tenderAmount < 0 ? 'danger' : 'primary'}}">
+      <ion-label>
+        {{ paymentProvider.tenderAmount |currency: cart?.currencyUom }}
+      </ion-label>
+    </ion-text>
+  </ion-item>
+  <div class="ion-padding">
+    <ion-button
+      (click)="addPayment('Cash', 'PiCash', paymentProvider.tenderAmount, 'cash-outline')"
+      class="cash">
+      <ion-icon name="cash-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      (click)="addCardPayment('Credit Card', 'PiCreditCard', paymentProvider.tenderAmount, 'card-outline')"
+      class="credit-card">
+      <ion-icon name="card-outline"></ion-icon>
+    </ion-button>
+  </div>
+  <ion-card
+    *ngFor="let payment of payments ; index as i"
+    [@cardAnimation]="payments?.length">
+    <ion-card-content>
+      <p class="overline" *ngIf="payment.paymentMethodTypeId != 'PiCreditCard'">
+        <ion-icon name="cash-outline"></ion-icon>
+        {{ payment.paymentMethodName | translate:locale.language }}
+      </p>
+      <p class="overline" *ngIf="payment.paymentMethodTypeId == 'PiCreditCard'">
+        <ion-icon name="card-outline"></ion-icon>
+        {{ payment?.cardType }} {{ payment?.cardLast4 }}
+      </p>
+      <ion-item class="ion-no-padding" lines="none">
+        <ion-button
+          fill="clear"
+          slot="end"
+          color="dark"
+          (click)="removePayment(i, payment)"
+        >
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+        <h1>
+          {{ payment.maxAmount | currency:
+            cart?.currencyUom}}
+        </h1>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab slot="fixed" vertical="bottom" class="extended-fab">
+    <ion-fab-button
+      [disabled]="paymentProvider.tenderAmount > 0 "
+      (click)="reviewOrder()">
+      {{ 'Review Order' |translate:locale.language }}
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,6 @@
+---
+title: Removed calling of saveCartToAutoSaveList API
+ticket_id: "#35k202"
+merge_request: 579
+author: Humera Khan
+type: other

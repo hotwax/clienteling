@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "default": "hotwax-digital-commerce",
+    "production": "digital-commerce-71eb8"
+  },
+  "targets": {
+    "hotwax-digital-commerce": {
+      "hosting": {
+        "clienteling": [
+          "clienteling-dev"
+        ]
+      }
+    },
+    "digital-commerce-71eb8": {
+      "hosting": {
+        "clienteling": [
+          "hotwax-clienteling"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+---
+title: Fixed condition on home page to display only those categories in the menu that
+  are having products
+ticket_id: "#2vtnnk"
+merge_request: 537
+author: Humera Khan
+type: fixed

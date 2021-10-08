@@ -1,0 +1,6 @@
+---
+title: Used vsf query builder to prepare elastic query and pass it to find products
+ticket_id: "#2vgatb"
+merge_request: 855
+author: Aditya Sharma
+type: added

@@ -1,0 +1,6 @@
+---
+title: Fixed an issue where state is not working fine on re-login the app
+ticket_id: "#239cwa"
+merge_request: 807
+author: Humera Khan
+type: fixed

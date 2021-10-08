@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'Filters' | translate:locale.language }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        {{ 'Done' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="filters">
+      <ion-segment-button value="categories">
+        <ion-label>{{ 'Categories' | translate:locale.language }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="brands">
+        <ion-label>{{ 'Brands' | translate:locale.language }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="filterProductsForm">
+    <div [ngSwitch]="filters">
+      <ion-list *ngSwitchCase="'categories'">
+        <ion-card *ngFor="let parentCategory of productProvider.parentCategories">
+          <!-- Initiate the recursive template rendering. -->
+          <ng-container *ngIf="parentCategory">
+            <ng-template
+              [ngTemplateOutlet]="categories"
+              [ngTemplateOutletContext]="{ category: parentCategory }">
+            </ng-template>
+            <!-- Define the recursive template. -->
+            <ng-template #categories let-category="category">
+              <ng-container *ngIf="category">
+                <ion-item>
+                  <ion-label>{{ getCategoryName(category.id) }}</ion-label>
+                  <ion-checkbox  [formControlName]="category.id" (ionChange)="selectCategory($event, category)"></ion-checkbox>
+                </ion-item>
+                <ng-container *ngIf="category.children_data.length">
+                  <ng-template ngFor let-childCategory [ngForOf]="category.children_data">
+                    <!-- Invoke the recursive template -->
+                    <ion-list inset>
+                      <ng-template
+                        [ngTemplateOutlet]="categories"
+                        [ngTemplateOutletContext]="{ category: childCategory }">
+                      </ng-template>
+                    </ion-list>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
+            </ng-template>
+          </ng-container>
+        </ion-card>
+      </ion-list>
+      <ion-list *ngSwitchCase="'brands'">
+        <!--ToDo: We will prepare the UI after API integration-->
+      </ion-list>
+    </div>
+  </form>
+  <ion-fab slot="fixed" vertical="bottom" class="extended-fab">
+    <ion-fab-button color="primary" (click)="clearFilters()">
+      {{ 'Clear all filters' | translate:locale.language }}
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'Settings' | translate:locale.language}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">
+        <ion-label>{{'Store Operations' | translate:locale.language}}</ion-label>
+      </ion-item-divider>
+      <ion-item detail (click)="soldInventory()" lines="none">
+        <ion-icon slot="start" name="pricetag-outline"></ion-icon>
+        <ion-label>{{'Offline Sale' | translate:locale.language}}</ion-label>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">
+        <ion-label>{{'Store Settings' | translate:locale.language}}</ion-label>
+      </ion-item-divider>
+    </ion-item-group>
+    <ion-item *ngIf="clovergoProvider.cloverDeviceConnected">
+      <ion-icon slot="start" name="card-outline"></ion-icon>
+      <ion-label>{{ 'Card reader' | translate:locale.language }}</ion-label>
+      <ion-button
+        slot="end"
+        fill="outline"
+        color="danger"
+        (click)="disconnect()"
+        [disabled]="isDeviceEngaged"
+      >
+        {{ 'Disconnect' | translate:locale.language }}
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="!clovergoProvider.cloverDeviceConnected">
+      <ion-icon slot="start" name="card-outline"></ion-icon>
+      <ion-label>{{ 'Card reader' | translate:locale.language }}</ion-label>
+      <ion-button
+        slot="end"
+        fill="outline"
+        color="success"
+        (click)="connect()"
+        [disabled]="isDeviceEngaged"
+      >
+        {{ 'Connect' | translate:locale.language }}
+      </ion-button>
+    </ion-item>
+    <ion-item detail (click)="resetPassword()">
+      <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      <ion-label>{{'Reset password' | translate:locale.language}}</ion-label>
+    </ion-item>
+    <ion-item>
+        <ion-icon slot="start" name="construct-outline"></ion-icon>
+        <ion-label>{{ 'Version' | translate:locale.language }}</ion-label>
+        <ion-note slot="end" class="caption">{{ app_version }}</ion-note>
+      </ion-item>  
+    <ion-item>
+      <ion-icon slot="start" name="storefront-outline"></ion-icon>
+      <ion-label>{{ 'Store' | translate:locale.language }}</ion-label>
+      <ion-select
+        [(ngModel)]="currentStoreFacilityId"
+        interface="popover"
+        (ionChange)="setFacility()"
+      >
+        <ion-select-option
+          *ngFor="let facility of stores$ | async"
+          [value]="facility.facilityId"
+          >{{facility.storeName ? facility.storeName :
+          facility.facilityId}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="language-outline"></ion-icon>
+      <ion-label>{{ 'Language' | translate:locale.language }}</ion-label>
+      <ion-select
+        [(ngModel)]="currentLocale"
+        interface="popover"
+        (ionChange)="setLocale(currentLocale)"
+      >
+        <ion-select-option
+          *ngFor="let item of schema"
+          [value]="item.locale"
+          >{{ item.text }} [{{ item.locale.language }}]</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <div class="ion-padding">
+    <ion-button (click)="logout()" expand="block" fill="outline" color="danger">
+      {{'Logout' | translate:locale.language}}
+    </ion-button>
+  </div>
+</ion-content>

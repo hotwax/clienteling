@@ -1,0 +1,6 @@
+---
+title: Improved logic to use customer partyId using selector
+ticket_id: "#1zat2t"
+merge_request: 796
+author: Aditya Sharma
+type: added

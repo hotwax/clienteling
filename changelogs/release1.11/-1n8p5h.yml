@@ -1,0 +1,6 @@
+---
+title: Improved display of date as per appropriate timezone using moment library
+ticket_id: "#1n8p5h"
+merge_request: 759
+author: Humera Khan
+type: other

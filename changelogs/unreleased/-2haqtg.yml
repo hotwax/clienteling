@@ -1,0 +1,6 @@
+---
+title: Fixed an issue where loader keeps running while scanning the product barcode
+ticket_id: "#2haqtg"
+merge_request: 843
+author: Humera Khan
+type: fixed

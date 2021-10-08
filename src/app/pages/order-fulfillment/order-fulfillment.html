@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'Order Fulfillment' | translate:locale.language }}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="dashboard()">
+        <ion-icon slot="icon-only" name="bar-chart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="{{ 'Search orders'| translate:locale.language }}"
+      [(ngModel)]="orderId"
+      ngDefaultControl
+      (keyup.enter)="search($event)"
+      (ionClear)="clearSearchbar()"
+      >
+    </ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment (ionChange)="pickupSegmentChanged($event)" [value]="pickupSegment">
+      <ion-segment-button value="orders">
+        <ion-label>{{'Orders'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="packedOrders">
+        <ion-label>{{'Packed Orders'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="pickupSegment === 'orders'" class="orders">
+    <ng-container *ngFor="let order of orders">
+      <ion-card *ngFor="let shipGroup of getShipGroups(order.items)">
+        <div (click)="viewPickupOrder(order.orderId, getShipGroupItems(shipGroup, order.items))">
+          <ion-item lines="none">
+            <ion-label class="ion-text-wrap">
+              <h1 text-capitalize text-wrap [innerHtml]='order.customerName'></h1>
+              <p>{{ 'Order ID' | translate:locale.language }} {{ order.orderId }}</p>
+            </ion-label>
+            <ion-note slot="end" class="caption">
+              <p class="ion-text-right">{{ order.orderDate | showDate }}</p>
+              <ion-badge *ngIf="order.orderDate">{{ moment.utc(order.orderDate).fromNow() }}</ion-badge>
+              <p class="ion-text-right">{{ order?.salesChannelEnumId | translate:locale.language }}</p>
+            </ion-note>
+          </ion-item>
+          <ion-list *ngFor="let item of getShipGroupItems(shipGroup, order.items)">
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <image [src]="item.images.main.small"></image>
+              </ion-thumbnail>
+              <ion-label class="ion-text-wrap">
+                <p *ngIf="item?.brandName" class="overline" [innerHtml]="item?.brandName"></p>
+                <h2 [innerHtml]='item.itemName'></h2>
+                <p> {{ item.standardFeatures?.COLOR?.description }}
+                  <span *ngIf="item.standardFeatures?.SIZE && item.standardFeatures?.COLOR"> | </span>
+                  {{ item.standardFeatures?.SIZE?.description }}
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+        <div class="border-top">
+          <ion-button fill="clear" expand="block" (click)="quickShipEntireShipGroup(order, shipGroup)">
+            {{ (getShipmentMethod(shipGroup, order.items) == 'STOREPICKUP' ? 'Ready for pickup' : 'Ready to ship') | translate:locale.language }}
+          </ion-button>
+        </div>
+      </ion-card>
+    </ng-container>
+    <ion-infinite-scroll (ionInfinite)="loadMorePickupOrders($event)">
+      <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="{{ 'Loading' | translate:locale.language }}">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  <div *ngIf="pickupSegment === 'packedOrders'" class="orders">
+    <ng-container *ngFor="let order of packedOrders">
+      <ion-card *ngFor="let shipGroup of getShipGroups(order.items)">
+        <ion-item lines="none">
+          <ion-label class="ion-text-wrap">
+            <h1 text-capitalize text-wrap [innerHtml]='order.customerName'></h1>
+            <p>{{ 'Order ID' | translate:locale.language }} {{ order.orderId }}</p>
+          </ion-label>
+          <ion-note slot="end" class="caption">
+            <p *ngIf="order?.pickistPickedDate">{{ order?.pickistPickedDate | showDate }}</p>
+            <p>{{ order?.salesChannelEnumId | translate:locale.language }}</p>
+          </ion-note>
+        </ion-item>
+        <ion-list *ngFor="let item of getShipGroupItems(shipGroup, order.items) ; let i = index">
+          <ion-item lines="none">
+            <ion-thumbnail slot="start">
+              <image [src]="item.images.main.small"></image>
+            </ion-thumbnail>
+            <ion-label class="ion-text-wrap">
+              <p *ngIf="item?.brandName" class="overline" [innerHtml]="item?.brandName"></p>
+              <h2 [innerHtml]='item.itemName'></h2>
+              <p> {{ item.standardFeatures?.COLOR?.description }}
+                <span *ngIf="item.standardFeatures?.SIZE && item.standardFeatures?.COLOR"> | </span>
+                {{ item.standardFeatures?.SIZE?.description }}
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <div class="border-top">
+          <ion-button fill="clear" expand="block" (click)="deliverShipment(order)">
+            {{ (order.shipmentMethodTypeId === 'STOREPICKUP' ? 'Handover' : 'Ship') | translate:locale.language }}
+          </ion-button>
+        </div>
+      </ion-card>
+    </ng-container>
+    <ion-infinite-scroll (ionInfinite)="loadMorePackedOrders($event)">
+      <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="{{ 'Loading' | translate:locale.language }}">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

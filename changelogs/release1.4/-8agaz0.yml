@@ -1,0 +1,6 @@
+---
+title: Improved display of store pickup, used Pickup from UI label before the storeName
+ticket_id: "#8agaz0"
+merge_request: 616
+author: Humera Khan
+type: other

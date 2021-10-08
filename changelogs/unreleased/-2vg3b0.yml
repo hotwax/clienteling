@@ -1,0 +1,7 @@
+---
+title: 'Fixed: Subsequent login from different store user shows cached products for
+  last store'
+ticket_id: "#2vg3b0"
+merge_request: 852
+author: Aditya Sharma
+type: fixed

@@ -1,0 +1,14 @@
+<ion-card (click)="viewProduct(product.productid)">
+  <ion-card-content>
+    <image [src]="product?.imageurl"></image>
+  </ion-card-content>
+  <ion-item>
+    <ion-label>
+      <p *ngIf="product?.brand" class="overline" [innerHtml]="product?.brand"></p>
+      <h2 [innerHtml]="product?.name" text-wrap></h2>
+      <p *ngIf="product?.uf_price">
+        {{ product?.uf_price | currency: currencyUom }}
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-card>

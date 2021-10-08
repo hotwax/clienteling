@@ -1,0 +1,16 @@
+.cash {
+  --background: #e8f0fe;
+  --color: #4285f4;
+}
+.credit-card {
+  --background: #fef7e0;
+  --color: #fbbc04;
+}
+div {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 16px;
+  ion-button {
+    flex: auto;
+  }
+}

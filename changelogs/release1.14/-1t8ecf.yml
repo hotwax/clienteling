@@ -1,0 +1,6 @@
+---
+title: Implemented state management for customer data using NGXS library
+ticket_id: "#1t8ecf"
+merge_request: 772
+author: Aditya Sharma
+type: added

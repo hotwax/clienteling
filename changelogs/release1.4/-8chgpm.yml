@@ -1,0 +1,6 @@
+---
+title: Added slider for selecting days from range 0 to 20 .Update label from Deliver to Pick up and added range from 0 and 20 either side of slider.
+ticket_id: "#8chgpm"
+merge_request: !627
+author: Ashish Suhane
+type: other

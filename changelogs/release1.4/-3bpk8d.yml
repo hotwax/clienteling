@@ -1,0 +1,7 @@
+---
+title: 'Fixed: Incorrect city fetched by address auto completer in delivery address
+  form'
+ticket_id: "#3bpk8d"
+merge_request: https://git.hotwax.co/plugins/mobile-sdk/ionic/Clienteling/merge_requests/610
+author: Ashish Suhane
+type: fixed

@@ -1,0 +1,6 @@
+---
+title: Fixed Packed orders are not updated when navigating from setting to order fullfilment
+ticket_id: "#51gwn4"
+merge_request: 862
+author: Aditya Sharma
+type: fixed

@@ -1,0 +1,4 @@
+<img
+  [src]=" src ? ((src.indexOf('assets/') != -1 || src.startsWith('http')) ? src : resourceUrl.concat(src)) : defaultImage"
+  (error)="getDefaultImage($event)"
+/>

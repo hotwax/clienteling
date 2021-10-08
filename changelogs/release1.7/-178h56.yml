@@ -1,0 +1,7 @@
+---
+title: 'Fixed: Last recommendations of customer are not cleared when we re-login into
+  App'
+ticket_id: "#178h56"
+merge_request: 629
+author: Ashish Suhane
+type: fixed

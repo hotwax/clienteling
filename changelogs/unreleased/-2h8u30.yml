@@ -1,0 +1,6 @@
+---
+title: Improved display of UI labels as per the assets passed in l10n config provider
+ticket_id: "#2h8u30"
+merge_request: 840
+author: Humera Khan
+type: other

@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{'Reserve Item' | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="saveReservationForm(reservationForm)"
+        [disabled]="!isValid"
+      >
+        {{'Save' | translate:locale.language}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="reservationForm.payment" ngDefaultControl>
+    <ion-list-header>
+      <ion-label>{{'Payment' | translate:locale.language}}</ion-label>
+    </ion-list-header>
+    <ion-item lines="none">
+      <ion-radio value="payNow" slot="start"></ion-radio>
+      <ion-label>{{'Pay Now' | translate:locale.language}}</ion-label>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-radio value="payOnPickup" slot="start"></ion-radio>
+      <ion-label>{{'Pay at pickup' | translate:locale.language}}</ion-label>
+    </ion-item> -->
+  </ion-radio-group>
+</ion-list>
+  <ion-list (ionChange)="checkstatus()">
+    <ion-radio-group [(ngModel)]="reservationForm.trusteeName" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{'Trustee' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item
+        lines="none"
+        *ngIf="(customerId$ | async) !== '_NA_'"
+      >
+        <ion-radio
+          [value]="cart?.customer?.partyName"
+          slot="start"
+        ></ion-radio>
+        <ion-label
+          (click)="reservationForm.trusteeName = cart?.customer.partyName"
+          >{{ (customerId$ | async) !==
+          '_NA_' ? cart?.customer?.partyName :
+          'Name of trustee'|translate:locale.language}}</ion-label
+        >
+      </ion-item>
+      <ion-item lines="none" (ionChange)="checkstatus()">
+        <ion-radio value="enteredName" slot="start"></ion-radio>
+        <ion-input
+          placeholder="{{ 'Name of trustee' | translate:locale.language }}"
+          type="text"
+          [(ngModel)]="trustee"
+          ngDefaultControl
+          (click)="reservationForm.trusteeName = 'enteredName'"
+          (input)="validateField(trustee,'name')"
+        >
+        </ion-input>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list (ionChange)="checkstatus()">
+    <ion-radio-group [(ngModel)]="reservationForm.phoneNumber" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{'Contact Number' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item
+        lines="none"
+        *ngIf="cart?.customer?.phoneNumber  !== '_NA_' && cart?.customer?.phoneNumber  !== undefined"
+      >
+        <ion-radio
+          [value]="cart?.customer?.phoneNumber"
+          slot="start"
+        ></ion-radio>
+        <ion-label
+          (click)="reservationForm.phoneNumber = cart?.customer.phoneNumber"
+          >{{cart?.customer?.phoneNumber |
+          phone}}
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" (ionChange)="checkstatus()">
+        <ion-radio value="enteredNumber" slot="start"></ion-radio>
+        <ion-input
+          placeholder="{{ 'Phone number' | translate:locale.language }}"
+          type="tel"
+          maxLength="14"
+          [ngModel]="phoneNumber | phone"
+          ngDefaultControl
+          (ngModelChange)="phoneNumber=$event"
+          (click)="reservationForm.phoneNumber = 'enteredNumber'"
+          (input)="validateField(phoneNumber,'phoneNumber')"
+        ></ion-input>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>{{'Pick up'| translate:locale.language}}</ion-label>
+        <ion-badge color="secondary" slot="end"> {{pickupDate}} </ion-badge>
+      </ion-list-header>
+      <ion-item>
+        <ion-range
+          min="0"
+          max="20"
+          snaps="true"
+          color="secondary"
+          [(ngModel)]="numberOfDays"
+          ngDefaultControl
+          pin="true"
+          (ionChange)="checkRange()"
+        >
+          <ion-label class="caption" slot="start">{{ 'Today' | translate:locale.language }}</ion-label>
+          <ion-label class="caption" slot="end">{{ '20 days' | translate:locale.language }}</ion-label>
+        </ion-range>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

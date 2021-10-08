@@ -1,0 +1,6 @@
+---
+title: Improved logic for cart state with cart properties direclty used as state properties
+ticket_id: "#1z97un"
+merge_request: 793
+author: Aditya Sharma
+type: added

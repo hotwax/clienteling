@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{ 'Cart Item' | translate:locale.language }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editCartItem(quantity.value, editProduct)">
+        {{ 'Save' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="none">
+    <ion-label class="ion-text-wrap">
+      <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+      <h1 [innerHtml]="editProduct?.productName" text-wrap></h1>
+      <ion-text [color]="editProduct.listPrice < 0 ? 'success' : ''">
+        <h1>
+          {{editProduct?.listPrice | currency:
+          currencyUom}}
+        </h1>
+      </ion-text>
+    </ion-label>
+    <ion-thumbnail *ngIf="product?.images?.main?.detail" slot="end">
+      <image [src]="product?.images?.main?.detail"></image>
+    </ion-thumbnail>
+  </ion-item>
+  <ion-item lines="none" *ngIf="editProduct.features">
+    <ion-label text-wrap>
+      <ion-chip item-content *ngFor="let feature of editProduct.features">
+        <ion-icon [name]="feature.featureId == 'SIZE'? 'resize-outline' : 'color-palette-outline'"></ion-icon>
+        <ion-label text-center>{{feature.description}}</ion-label>
+      </ion-chip>
+    </ion-label>
+  </ion-item>
+  <ion-item class="input-width-short">
+    <ion-label>{{ 'Quantity' | translate:locale.language }}</ion-label>
+    <ion-input type="number" value="{{ editProduct.quantity }}" #quantity></ion-input>
+  </ion-item>
+  <ion-item
+    *ngIf="!editProduct?.facilityName && !editProduct?.address && !editProduct.returnReasonId ; else orderPart"
+  >
+    <ion-icon name="storefront-outline" slot="start"></ion-icon>
+    {{'In store' | translate:locale.language}}
+  </ion-item>
+  <ng-template #orderPart>
+    <ion-list
+      *ngIf="!editProduct?.facilityName && !editProduct?.address && editProduct.returnReasonId"
+    >
+      <ion-item>
+        <ion-icon name="arrow-undo" slot="start"></ion-icon>
+        {{'Return Items' | translate:locale.language}}
+      </ion-item>
+      <ion-item>
+        {{'Return reason' | translate:locale.language}}
+        <ion-note slot="end">
+          {{customerDataProvider.getReturnReason(editProduct.returnReasonId)}}
+        </ion-note>
+      </ion-item>
+      <ion-item>
+        {{'Payment'| translate:locale.language}}
+        <ion-note slot="end">
+          {{customerDataProvider.getReturnPaymentMethod(editProduct.returnPaymentMethodId)}}
+        </ion-note>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf="editProduct?.facilityName">
+      <ion-icon name="map-outline" slot="start"></ion-icon>
+      {{ 'Pick up from' | translate:locale.language }} {{editProduct?.facilityName}}
+    </ion-item>
+    <div *ngIf="editProduct?.address">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{'Delivery' | translate:locale.language}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label class="ion-text-wrap">
+            <p>{{ editProduct?.address}}</p>
+          </ion-label>
+        </ion-card-content>
+      </ion-card>
+      <ion-list>
+        <ion-radio-group>
+        <ion-list-header>
+          <ion-label>{{ 'Delivery Options' | translate:locale.language}}</ion-label>
+        </ion-list-header>
+        <ion-item>
+          <ion-radio value="five" checked="true" slot="start"></ion-radio>
+          <ion-label>5-7 days</ion-label>
+          <ion-note slot="end" class="caption">{{ 'Free'| translate:locale.language }}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-radio value="two" slot="start"></ion-radio>
+          <ion-label>2-3 days</ion-label>
+          <ion-note slot="end" class="caption">{{ 'Free'| translate:locale.language }}</ion-note>
+        </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+  </ng-template>
+  <div class="ion-padding">
+    <ion-button expand="block" fill="outline" (click)="removeItem()" color="danger">
+      {{'Remove Item' | translate:locale.language}}
+    </ion-button>
+  </div>
+</ion-content>

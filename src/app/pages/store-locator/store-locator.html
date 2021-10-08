@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Other stores' | translate:locale.language }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    placeholder="{{'Search stores'| translate:locale.language}}"
+    (keypress)="getLocation($event)"
+    (ionClear)="clearSearchbar()"
+  >
+  </ion-searchbar>
+  <ng-template
+    [ngIf]="productProvider.getKeys(storeGroup).length !== 0"
+    [ngIfElse]="noStore"
+  >
+    <ion-list *ngIf="productProvider.getKeys(storeGroup).length">
+      <ion-item lines="none">
+        <ion-label>{{ 'Only show in stock' | translate:locale.language}}</ion-label>
+        <ion-toggle
+          [(ngModel)]="isInStock"
+          (ionChange)="filterInStock()"
+        ></ion-toggle>
+      </ion-item>
+      <div *ngFor="let state of productProvider.getKeys(storeGroup)">
+        <ion-item-group>
+          <ion-item-divider color="light">
+            <ion-label>{{state | stateName: storeGroup[state][0].address.regionCode}}</ion-label>
+          </ion-item-divider>
+          <div *ngFor="let store of storeGroup[state]">
+            <ion-item
+              *ngIf="store.storeCode != currentStoreData.facilityId"
+              (click)="reserveItem(store)"
+            >
+              <ion-label class="ion-text-wrap">
+                <h2>{{ store.locationName }}</h2>
+              </ion-label>
+              <ion-note
+                *ngIf="store.atp > 0"
+                slot="end"
+                color="success"
+                class="caption"
+                >{{ store.atp }} {{ 'In store'| translate:locale.language }}
+              </ion-note>
+            </ion-item>
+          </div>
+        </ion-item-group>
+      </div>
+    </ion-list>
+  </ng-template>
+  <ng-template #noStore>
+    <ion-item class="ion-text-center empty-state-text" lines="none">
+      <h3>{{ 'There are no stores within 50 miles of the place you searched' | translate:locale.language }}</h3>
+    </ion-item>
+  </ng-template>
+</ion-content>

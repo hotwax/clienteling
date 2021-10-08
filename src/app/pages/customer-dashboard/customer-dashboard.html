@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{pageTitle}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="customerAnalytics?.length">
+    <ion-item *ngFor="let product of customerAnalytics">
+      <ion-thumbnail slot="start">
+        <image [src]="product.smallimageurl"></image>
+      </ion-thumbnail>
+      <h2 [innerHtml]="product.name"></h2>
+      <ion-note *ngIf="product?.uf_price" class="caption" slot="end"
+        >{{product?.uf_price | currency: defaultCurrency}}</ion-note
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>

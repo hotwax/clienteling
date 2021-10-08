@@ -1,0 +1,6 @@
+---
+title: Fixed issue with category filter when removing the category filter
+ticket_id: "#178p0f"
+merge_request:  698
+author: Ashish Suhane
+type: other

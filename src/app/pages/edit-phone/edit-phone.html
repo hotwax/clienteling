@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{((data?.primaryPhone && data?.primaryPhone?.contactNumber) ? 'Edit phone number' : 'Add phone number' ) | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        [disabled]="!isValid"
+        (click)="editPhone()"
+      >
+        {{ 'Save' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label>{{ 'Phone number' | translate:locale.language}}</ion-label>
+    <ion-input
+      type="tel"
+      maxLength="14"
+      [ngModel]="phoneNumber | phone"
+      (ngModelChange)="phoneNumber=$event"
+      (input)="validatePhone(phoneNumber)"
+      #autoFocus
+    ></ion-input>
+  </ion-item>
+</ion-content>

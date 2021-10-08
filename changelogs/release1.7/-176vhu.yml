@@ -1,0 +1,6 @@
+---
+title: Fixed continues loader running on the create customer page
+ticket_id: "#176vhu"
+merge_request: 696
+author: Ashish Suhane
+type: fixed

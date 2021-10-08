@@ -1,0 +1,6 @@
+---
+title: Fixed an issue of empty imageURL and error on imageURL by adding default image
+ticket_id: "#2ttth5"
+merge_request: 560
+author: Humera Khan
+type: fixed

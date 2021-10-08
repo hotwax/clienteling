@@ -1,0 +1,7 @@
+---
+title: Fixed an issue where back navigation not working fine due to improper state
+  management through alternateProducts
+ticket_id: "#21a0mu"
+merge_request: 800
+author: Humera Khan
+type: fixed

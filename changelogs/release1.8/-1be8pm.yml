@@ -1,0 +1,7 @@
+---
+title: Improved creation of order-return irrespective of the selection of useCreditOnNextPurchase
+  checkbox
+ticket_id: "#1be8pm"
+merge_request: 711
+author: Humera Khan
+type: other

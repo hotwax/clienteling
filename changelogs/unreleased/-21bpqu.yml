@@ -1,0 +1,7 @@
+---
+title: Improved settings page by adding the UI to register quick sale, also integrated
+  products API to get the detail of scanned product
+ticket_id: "#21bpqu"
+merge_request: 801
+author: Humera Khan
+type: other

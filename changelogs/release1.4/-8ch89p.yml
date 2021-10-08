@@ -1,0 +1,6 @@
+---
+title: Customer details disappear before ending session
+ticket_id: "#8ch89p"
+merge_request: https://git.hotwax.co/plugins/mobile-sdk/ionic/Clienteling/merge_requests/611
+author: Ashish Suhane
+type: fixed

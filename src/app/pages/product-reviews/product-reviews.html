@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Product Reviews' | translate:locale.language}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="reviews">
+  <ion-item lines="none">
+    <span *ngIf="(averageRating > 0)">
+      <h1>{{averageRating}}</h1>
+      <p>{{'Out of 5'|translate:locale.language | lowercase}}</p>
+    </span>
+    <ion-text>
+<ion-note slot="end" class="caption">
+      {{reviews?.aggregatedRating?.reviewCount}} {{
+      (reviews?.aggregatedRating?.reviewCount > 1 ? 'Reviews' : 'Review')|
+      translate:locale.language}}
+    </ion-note>
+</ion-text>
+  </ion-item>
+  <ion-card *ngFor="let review of getReviews()">
+    <ion-card-content>
+      <ion-item lines="none" no-padding>
+        <h2>
+          {{ review?.subject ? review?.subject : 'No subject'|translate:locale.language }}
+        </h2>
+        <p>{{ review?.author }}</p>
+        <!-- <ionic3-star-rating
+          *ngIf="review?.reviewRating > 0"
+          activeIcon="ios-star"
+          defaultIcon="ios-star-outline"
+          activeColor="orange"
+          defaultColor="orange"
+          readonly="true"
+          [rating]="review?.reviewRating"
+        ></ionic3-star-rating> -->
+        <ion-text>
+<ion-note class="caption" slot="end">{{review?.date}}</ion-note>
+</ion-text>
+      </ion-item>
+      <p>{{review?.review | truncate : review.limit}}</p>
+      <ion-buttons slot="primary">
+        <ion-button
+          fill="clear"
+          (click)="review.limit = review.review.length"
+          *ngIf="review.limit == 125 && review.review.length !== 125"
+        >
+          {{'More' | translate:locale.language}}
+        </ion-button>
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
+  <ion-infinite-scroll (ionInfinite)="loadMoreReviews($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="{{ 'Loading' | translate:locale.language }}"
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

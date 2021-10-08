@@ -1,0 +1,4 @@
+[submodule "src/theme"]
+  path = src/theme
+  url = https://git.hotwax.co/plugins/mobile-sdk/ionic/themes/notnaked.git
+  branch = master

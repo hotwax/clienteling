@@ -1,0 +1,6 @@
+---
+title: Fixed unexpected behaviour of the Process refund button for return flow
+ticket_id: "#1bdhk9"
+merge_request: 710
+author: Aditya Sharma
+type: fixed

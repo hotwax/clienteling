@@ -1,0 +1,20 @@
+<ion-content>
+  <form *ngIf="isInstallRequest"  #form="ngForm" (ngSubmit)="install(shopOrigin)">
+    <ion-list>
+      <image class="detail-img" [src]="companyLogo"></image>
+      <ion-item>
+        <ion-label position="floating">{{ 'Shop' | translate:locale.language }}</ion-label>
+        <ion-input [(ngModel)] = "shopOrigin" name="shopOrigin" type="text" required></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="ion-padding">
+      <ion-button type="submit" expand="block">
+        {{ 'Install' | translate:locale.language }}
+      </ion-button>
+    </div>
+  </form>
+  <ion-item *ngIf="!isInstallRequest">
+    <ion-spinner></ion-spinner>
+     {{ 'Please wait...Your request is being processed.' | translate:locale.language }}
+  </ion-item>
+</ion-content>

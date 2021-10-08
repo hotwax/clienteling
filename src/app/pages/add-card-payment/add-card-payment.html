@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{ 'Add' | translate:locale.language }} {{ data.paymentMethodName | translate:locale.language }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides class="swiper-no-swiping">
+    <ion-slide>
+      <ion-item>
+        <ion-label>{{ 'Balance' | translate:locale.language }}</ion-label>
+        <ion-text>
+<ion-label
+         
+          text-right
+          color="{{data.maxAmount < 0 ? 'danger' : '' }}"
+          >{{data.maxAmount | amount |
+          currency:cart?.currencyUom
+          }}</ion-label
+        >
+</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'Tender' |translate:locale.language}}</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="paymentProvider.enteredAmount"
+          #autoFocus
+        ></ion-input>
+        <ion-button
+          fill="clear"
+          slot="end"
+          icon-only
+          class="close"
+          color="dark"
+          (click)="paymentProvider.enteredAmount = 0;"
+        >
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-buttons>
+        <ion-button
+          fill="outline"
+          (click)="paymentProvider.enteredAmount = paymentProvider.tenderAmount > 0 ? paymentProvider.tenderAmount : 0 "
+        >
+          {{ 'Tender' | translate:locale.language }} {{ (paymentProvider.tenderAmount > 0 ?
+          paymentProvider.tenderAmount : 0 ) | amount |
+          currency:cart?.currencyUom }}
+        </ion-button>
+        <ion-button
+          fill="outline"
+          [disabled]="paymentProvider.enteredAmount == 0"
+          (click)="pay(paymentProvider.enteredAmount)"
+        >
+          {{ 'Pay' | translate:locale.language }}
+        </ion-button>
+      </ion-buttons>
+    </ion-slide>
+    <ion-slide>
+      <ion-button fill="outline" (click)="sign(paymentProvider.enteredAmount)">
+        {{ 'Sign' | translate:locale.language }}
+      </ion-button>
+    </ion-slide>
+    <ion-slide>
+      <!-- TODO Add Success message -->
+    </ion-slide>
+  </ion-slides>
+</ion-content>

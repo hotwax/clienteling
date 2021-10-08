@@ -1,0 +1,7 @@
+---
+title: Fixed an issue where loader continous running on login page, if logged-in user
+  not associated with the store
+ticket_id: "#1vbmx0"
+merge_request: 782
+author: Humera Khan
+type: fixed

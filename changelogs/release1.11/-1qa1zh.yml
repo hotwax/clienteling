@@ -1,0 +1,6 @@
+---
+title: Improved customer page to add/edit emailAddress by replacing alert with modal
+ticket_id: "#1qa1zh"
+merge_request: 760
+author: Humera Khan
+type: other

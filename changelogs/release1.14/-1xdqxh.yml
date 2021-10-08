@@ -1,0 +1,6 @@
+---
+title: Improve cart logic to dynamically render view cart data
+ticket_id: "#1xdqxh"
+merge_request: 790
+author: Aditya Sharma
+type: added

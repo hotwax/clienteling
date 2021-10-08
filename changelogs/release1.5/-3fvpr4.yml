@@ -1,0 +1,6 @@
+---
+title: Improved reserve item UI by adding a badge instead on note and remove separate ion-item wrapper
+ticket_id: "#3fvpr4"
+merge_request: 645
+author: Madhuri Sharma
+type: other

@@ -1,0 +1,7 @@
+---
+title: Fixed an issue where Checking inventory label keeps on display on product page
+  if we get the zero quantity from the server
+ticket_id: "#1keybh"
+merge_request: 752
+author: Humera Khan
+type: fixed

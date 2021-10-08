@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Sold Inventory' | translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="scanBarcode()">
+        <ion-icon slot="icon-only" name="barcode"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="productSku"
+    ngDefaultControl
+    placeholder="{{'Add sold items' | translate:locale.language}}"
+    (keypress)="searchProduct($event)"
+    float="left"
+  >
+  </ion-searchbar>
+  <ion-item *ngFor="let product of productList$ | async">
+    <ion-thumbnail slot="start">
+      <image [src]="product?.imageUrl"></image>
+    </ion-thumbnail>
+    <ion-label class="ion-text-wrap">
+      <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+      <h2 [innerHtml]="product?.name"></h2>
+      <ul class="feature-list main-feature selected-feature"
+        *ngIf="product?.attributes?.COLOR || product?.attributes?.SIZE ">
+        <li>
+          <label>{{ product?.attributes?.COLOR }}</label>
+          <span *ngIf="product?.attributes?.COLOR && product?.attributes?.SIZE">|</span>
+          <label>{{ product?.attributes?.SIZE }}</label>
+        </li>
+      </ul>
+    </ion-label>
+    <ion-button fill="outline" slot="end" color="danger" (click)="removeProduct(product)">{{'Remove' | translate:locale.language}}</ion-button>
+  </ion-item>
+  <ion-fab slot="fixed" horizontal="end" vertical="bottom">
+    <ion-fab-button (click)="registerOfflineSales()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

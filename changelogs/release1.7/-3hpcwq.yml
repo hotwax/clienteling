@@ -1,0 +1,7 @@
+---
+title: Improved image rendering code and use innerHtml to display heading in ORDER
+  Return page and use (?) to display value on page
+ticket_id: "#3hpcwq"
+merge_request: 651
+author: madhuri sharma
+type: other

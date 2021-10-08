@@ -1,0 +1,7 @@
+---
+title: Added productStoreId as parameters while calling searchProducts API as per
+  the recent improvements in the API
+ticket_id: "#2zjvnu"
+merge_request: 545
+author: Humera Khan
+type: other

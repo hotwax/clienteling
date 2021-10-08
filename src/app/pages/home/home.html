@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> {{'Products' | translate:locale.language}} </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="scanBarcode()">
+        <ion-icon slot="icon-only" name="barcode"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-segment-button value="search">
+        <ion-label>{{ 'Search' | translate:locale.language }}</ion-label>
+      </ion-segment-button>
+      <!-- TODO : For now in 3nqaxe task we need to comment it --->
+      <ion-segment-button value="recommendations">
+        <ion-label>{{ 'Recommendations' | translate:locale.language }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="segment === 'search'">
+    <ion-searchbar
+    [(ngModel)]="keyword"
+    ngDefaultControl
+    placeholder="{{'Search Products'| translate:locale.language}}"
+    (keypress)="searchProducts($event)"
+    (ionClear)="clearSearchbar()"
+    >
+    </ion-searchbar>
+    <ion-item lines="none">
+      <ion-label text-wrap>
+        <ion-chip (click)="filterProducts()">
+          <ion-icon name="filter-sharp"></ion-icon>
+          <ion-label>{{ 'Filters' | translate:locale.language }} {{ categoriesFilterCount > 0 ? categoriesFilterCount : ""}}</ion-label>
+        </ion-chip>
+      </ion-label>
+      <h2 slot="end" *ngIf="categoriesFilterCount > 0">
+        {{totalProductCount$ | async}} {{ 'results' | translate:locale.language }}
+      </h2>
+    </ion-item>
+    <!--Product list view.-->
+    <ion-list [@listAnimation]="listSize">
+      <ion-item
+        *ngFor="let product of productList$ | async"
+        (click)="viewProduct(product.productId)"
+      >
+        <ion-thumbnail slot="start">
+          <image [src]="product.images.small"></image>
+        </ion-thumbnail>
+        <ion-label class="ion-text-wrap">
+          <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+          <h2 [innerHtml]="product?.name"></h2>
+          <!--Product color.-->
+          <ul *ngIf="product.features.COLOR" class="feature-list main-feature">
+            <!--ToDo: Currently we are using color name in the styling, later we will have color code as per the updated response of API (https://app.clickup.com/t/27ha86)-->
+            <li
+              *ngFor="let color of product.features.COLOR"
+              [ngStyle]="{'background-color': color.description , 'border': color.description === 'White' ? '' : color.description }"
+              class="feature-color"
+            ></li>
+          </ul>
+          <span *ngIf="product.features.COLOR && product.features.SIZE">|</span>
+          <!--Product size.-->
+          <ul class="feature-list" *ngIf="product.features.SIZE">
+            <li *ngFor="let size of product.features.SIZE">
+              <label *ngIf="size">{{size.description}}</label>
+            </li>
+          </ul>
+        </ion-label>
+        <ion-label class="ion-text-end">
+          <ion-note color="danger" *ngIf="product?.price?.specialPrice">
+              {{ product?.price?.specialPrice | currency: (cart$ | async).currencyUom }}
+          </ion-note>
+          <p *ngIf="product?.price?.basePrice" [ngClass]="product?.price?.specialPrice ? 'line-through': ''">
+            {{ product?.price?.basePrice | currency: (cart$ | async).currencyUom }}
+          </p>
+          <p *ngIf="product?.price?.specialPrice">
+            {{ productProvider.getDiscountPercentage(product?.price?.basePrice, product?.price?.specialPrice) | percent:'2.2' }}
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <!--Spinner issue will be solve ASAP-->
+    <ion-infinite-scroll (ionInfinite)="loadMoreProducts($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="crescent"
+        loadingText="{{ 'Loading' | translate:locale.language }}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+  <ng-container *ngIf="segment === 'recommendations'">
+    <ng-template
+    [ngIf]="(browsedProducts?.length || mostViewedProducts?.length || suggestedProducts?.length)"
+    [ngIfElse]="addCustomer"
+    >
+      <div *ngIf="browsedProducts?.length > 0">
+        <ion-item lines="none">
+          <p class="overline">{{'Browsed' | translate:locale.language}}</p>
+        </ion-item>
+        <ion-slides [options]="slideOpts">
+          <ion-slide *ngFor="let browsedProduct of browsedProducts">
+            <product-card [product]="browsedProduct"></product-card>
+          </ion-slide>
+        </ion-slides>
+      </div>
+      <div *ngIf="suggestedProducts?.length > 0">
+        <ion-item lines="none">
+          <p class="overline">{{'Suggested' | translate:locale.language}}</p>
+        </ion-item>
+        <ion-slides [options]="slideOpts">
+          <ion-slide *ngFor="let suggestedProduct of suggestedProducts">
+            <product-card [product]="suggestedProduct"></product-card>
+          </ion-slide>
+        </ion-slides>
+      </div>
+      <div *ngIf="mostViewedProducts?.length > 0">
+        <ion-item lines="none">
+          <p class="overline">{{'Most Viewed' | translate:locale.language}}</p>
+        </ion-item>
+        <ion-slides [options]="slideOpts">
+          <ion-slide *ngFor="let mostViewedProduct of mostViewedProducts">
+            <product-card [product]="mostViewedProduct"></product-card>
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </ng-template>
+    <ng-template #addCustomer>
+      <ion-item class="ion-text-center empty-state-text" lines="none">
+        <h3>{{ 'Add a registered customer to view recommendations for them' | translate:locale.language }}</h3>
+      </ion-item>
+    </ng-template>
+  </ng-container>
+</ion-content>

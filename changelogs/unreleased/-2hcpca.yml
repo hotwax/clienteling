@@ -1,0 +1,7 @@
+---
+title: Improved shopping cart component to handle the store-pickup and ship-to-customer
+  order with anonymous flow
+ticket_id: "#2hcpca"
+merge_request: 844
+author: Humera Khan
+type: other

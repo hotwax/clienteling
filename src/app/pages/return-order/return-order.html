@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Return from an order' | translate:locale.language }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon slot="icon-only" name="barcode"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    placeholder="{{'Search orders'| translate:locale.language}}"
+    [(ngModel)]="keyword"
+    ngDefaultControl
+    (keypress)="searchOrder($event)"
+    (ionClear)="clearSearchbar()"
+  >
+  </ion-searchbar>
+  <ion-card *ngFor="let order of filteredOrders" (click)="returnItems(order)">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label class="ion-text-wrap">
+          <h1>{{cart?.customer?.partyName}}</h1>
+          <p>{{order?.orderId}}</p>
+        </ion-label>
+        <ion-note slot="end">
+          {{order?.grandTotal | currency: order?.currencyUomId}}
+        </ion-note>
+      </ion-item>
+      <ion-list no-padding>
+        <ion-item *ngFor="let item of order?.items" no-padding>
+          <ion-thumbnail slot="start">
+            <image [src]="item?.image"></image>
+          </ion-thumbnail>
+          <h2 [innerHtml]="item?.itemDescription" text-wrap></h2>
+          <!-- <ul class="feature-list main-feature selected-feature">
+            <li *ngIf="item.color">
+              <label>{{item?.color}}</label>
+              <span>|</span>
+            </li>
+            <li *ngIf="item.size">
+              <label>{{item?.size}}</label>
+            </li>
+          </ul> -->
+          <ion-note slot="end"
+            >{{item?.itemTotal | currency: order?.currencyUomId}}</ion-note
+          >
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item *ngFor="let payment of order?.payments" lines="none">
+          {{payment?.methodDescription}}
+          <ion-note slot="end"
+            >{{payment?.amount | currency: payment?.currencyUomId }}</ion-note
+          >
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

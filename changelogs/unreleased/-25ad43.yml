@@ -1,0 +1,6 @@
+---
+title: Fixed initial setup errors due to incompatible libraries
+ticket_id: "#25ad43"
+merge_request: 816
+author: Aditya Sharma
+type: fixed

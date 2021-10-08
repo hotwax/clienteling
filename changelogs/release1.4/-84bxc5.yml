@@ -1,0 +1,7 @@
+---
+title: Implemented new UI on home page for displaying customer analytics under recommendations
+  segment also removed card from activity segment on customer page
+ticket_id: "#84bxc5"
+merge_request: 618
+author: Humera Khan
+type: added

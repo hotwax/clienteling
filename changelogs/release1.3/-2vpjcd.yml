@@ -1,0 +1,6 @@
+---
+title: Make numberPad component generic so that it can be use in all over the app
+ticket_id: "#2vpjcd"
+merge_request: 531
+author: Humera Khan
+type: other

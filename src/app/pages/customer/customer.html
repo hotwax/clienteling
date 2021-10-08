@@ -1,0 +1,229 @@
+<ion-header
+  *ngIf="(isSearched$ | async) || (customerId$ | async) !== '_NA_'"
+>
+  <ion-toolbar>
+    <ion-title>{{'Customer Detail'| translate:locale.language}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div
+    *ngIf="(isSearched$ | async) || (customerId$ | async) !== '_NA_'"
+  >
+    <ion-item lines="none" *ngIf="customerDetails">
+      <text-avatar
+        slot="start"
+        *ngIf="customerDetails.partyName"
+        [text]="customerDetails?.partyName"
+      ></text-avatar>
+      <ion-label class="ion-text-wrap">
+        <h1 text-capitalize>{{customerDetails.partyName}}</h1>
+        <p>
+          {{(customerDetails.primaryPhoneNumber| phone) ||
+          primaryEmail?.infoString }}
+        </p>
+      </ion-label>
+    </ion-item>
+    <div class="ion-padding">
+      <ion-button
+        *ngIf="(customerId$ | async) !== '_NA_'"
+        expand="block"
+        fill="outline"
+        (click)="endSession()"
+      >
+        {{'End Session'| translate:locale.language}}
+      </ion-button>
+    </div>
+
+    <ion-segment [(ngModel)]="customerSegment">
+      <ion-segment-button value="profile">
+        <ion-label>{{'Profile'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="activity">
+        <ion-label>{{'Activity'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="analytics">
+        <ion-label>{{'Analytics'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="customerSegment">
+      <ion-list *ngSwitchCase="'profile'">
+        <ion-list>
+          <ion-list-header>
+            <ion-label>{{'Contact Information'| translate:locale.language}}</ion-label>
+          </ion-list-header>
+          <ion-item (click)="editPhone()">
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            {{ primaryPhone.contactNumber ?
+              ( primaryPhone.contactNumber | phone) : ( 'Add phone number'
+              | translate:locale.language ) }}
+          </ion-item>
+          <ion-item (click)="editEmail()">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            {{ primaryEmail?.infoString ? primaryEmail?.infoString : (
+            'Add email address' | translate:locale.language ) }}
+          </ion-item>
+        </ion-list>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>{{'Addresses'| translate:locale.language}}</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let address of addresses">
+            {{address?.address1}}, {{address?.city}} {{address?.postalCode}}
+          </ion-item>
+          <ion-item (click)="addAddress()">
+            <ion-icon name="add" slot="start"></ion-icon>
+            {{ 'Add address' | translate:locale.language }}
+          </ion-item>
+        </ion-list>
+      </ion-list>
+      <ion-list *ngSwitchCase="'activity'">
+        <ion-searchbar
+          [(ngModel)]="keyword"
+          ngDefaultControl
+          placeholder="{{'Search orders'| translate:locale.language}}"
+          (keypress)="searchOrder($event)"
+          (ionClear)="clearSearchbar()"
+        >
+        </ion-searchbar>
+        <ion-item lines="none">
+          <ion-label text-wrap>
+            <ion-chip
+              [ngClass]="selectedShipGroups.includes('delivery')? 'active': 'inactive'"
+              (click)="filterOrders('delivery')"
+            >
+              <ion-label>{{'Delivery' | translate:locale.language}}</ion-label>
+            </ion-chip>
+            <ion-chip
+              [ngClass]="selectedShipGroups.includes('instore')? 'active': 'inactive'"
+              (click)="filterOrders('instore')"
+            >
+              <ion-label>{{'In store' | translate:locale.language}}</ion-label>
+            </ion-chip>
+            <ion-chip
+              [ngClass]="selectedShipGroups.includes('pickup')? 'active': 'inactive'"
+              (click)="filterOrders('pickup')"
+            >
+              <ion-label>{{'Pick up' | translate:locale.language}}</ion-label>
+            </ion-chip>
+          </ion-label>
+        </ion-item>
+        <div *ngFor="let order of filteredOrders">
+          <ion-card *ngIf="customerDataProvider.ifInStoreItems(order) ||
+            customerDataProvider.ifDeliveryItems(order) ||
+            customerDataProvider.ifStorePickupItems(order)"
+            (click)="orderDetail(order)"
+          >
+            <ion-item lines="none">
+              <ion-label class="ion-text-wrap">
+                <h2>{{order?.orderDate | showDate}}</h2>
+                <p>{{order.orderId}}</p>
+              </ion-label>
+              <ion-note class="caption" slot="end">
+                {{order.grandTotal| currency: order.currencyUomId}}
+              </ion-note>
+            </ion-item>
+            <ion-item-group *ngIf="customerDataProvider.ifInStoreItems(order)">
+              <ion-item-divider color="light">
+                <ion-icon name="storefront-outline" slot="start"></ion-icon>
+                <ion-label>{{'In store' | translate:locale.language}}</ion-label>
+              </ion-item-divider>
+              <ion-item *ngFor="let product of customerDataProvider.getInStoreItems(order)" lines="none">
+                <ion-thumbnail slot="start">
+                  <image [src]="product?.image"></image>
+                </ion-thumbnail>
+                <ion-label class="ion-text-wrap">
+                  <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+                  <h2 [innerHtml]="product?.itemDescription"></h2>
+                  <ul class="feature-list main-feature selected-feature">
+                    <li>
+                      <label>{{product.color}}</label>
+                      <span *ngIf="product?.color && product.size">|</span>
+                      <label>{{product.size}}</label>
+                    </li>
+                  </ul>
+                  <p>{{'Qty' | translate:locale.language }} {{product?.quantity}}</p>
+                </ion-label>
+                <ion-note slot="end" class="caption">
+                  {{ product.itemTotal| currency: order.currencyUomId }}
+                </ion-note>
+              </ion-item>
+            </ion-item-group>
+            <ion-item-group *ngIf="customerDataProvider.ifDeliveryItems(order)">
+              <ion-item-divider color="light">
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+                <ion-label>{{'Delivery' | translate:locale.language}}</ion-label>
+              </ion-item-divider>
+              <ion-item *ngFor="let product of customerDataProvider.getDeliveryItems(order)" lines="none">
+                <ion-thumbnail slot="start">
+                  <image [src]="product.image"></image>
+                </ion-thumbnail>
+                <ion-label class="ion-text-wrap">
+                  <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+                  <h2 [innerHtml]="product?.itemDescription"></h2>
+                  <ul class="feature-list main-feature selected-feature">
+                    <li>
+                      <label>{{product.color}}</label>
+                      <span *ngIf="product?.color && product.size">|</span>
+                      <label>{{product.size}}</label>
+                    </li>
+                  </ul>
+                  <p>{{'Qty' | translate:locale.language }} {{product?.quantity}}</p>
+                  <p>{{ product?.shippingAddress?.address1}}</p>
+                </ion-label>
+                <ion-note slot="end" class="caption">
+                  {{ product.itemTotal| currency: order.currencyUomId }}
+                </ion-note>
+              </ion-item>
+            </ion-item-group>
+            <ion-item-group *ngIf="customerDataProvider.ifStorePickupItems(order)">
+              <ion-item-divider color="light">
+                <ion-icon name="map-outline" slot="start"></ion-icon>
+                <ion-label>{{'Pick up items' | translate:locale.language}}</ion-label>
+              </ion-item-divider>
+              <ion-item *ngFor="let product of customerDataProvider.getStorePickupItems(order)" lines="none">
+                <ion-thumbnail slot="start">
+                  <image [src]="product.image"></image>
+                </ion-thumbnail>
+                <ion-label class="ion-text-wrap">
+                  <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
+                  <h2 [innerHtml]="product?.itemDescription"></h2>
+                  <ul class="feature-list main-feature selected-feature">
+                    <li>
+                      <label>{{product.color}}</label>
+                      <span *ngIf="product?.color && product.size">|</span>
+                      <label>{{product.size}}</label>
+                    </li>
+                  </ul>
+                  <p>{{'Qty' | translate:locale.language }} {{product?.quantity}}</p>
+                  <p>{{ product.facilityName}}</p>
+                </ion-label>
+                <ion-note slot="end" class="caption">
+                  {{ product.itemTotal| currency: order.currencyUomId }}
+                </ion-note>
+              </ion-item>
+            </ion-item-group>
+          </ion-card>
+        </div>
+        <ion-infinite-scroll (ionInfinite)="loadMoreOrders($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="crescent"
+            loadingText="{{ 'Loading' | translate:locale.language }}"
+          >
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-list>
+      <ion-list *ngSwitchCase="'analytics'"> </ion-list>
+    </div>
+  </div>
+  <div
+    *ngIf="!(isSearched$ | async) && (customerId$ | async) == '_NA_'"
+  >
+    <ion-fab slot="fixed" vertical="center" class="extended-fab">
+      <ion-fab-button (click)="searchCustomer()">
+        {{'Search Customer'| translate:locale.language}}
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>

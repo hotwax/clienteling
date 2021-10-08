@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">{{ 'Today' | translate:locale.language }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="orders">
+    <ion-card>
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label>
+            <h1>{{ 'Total' | translate:locale.language }}</h1>
+          </ion-label>
+          <ion-label class="ion-text-end" slot="end">
+            <h1>20 {{ 'Orders' | translate:locale.language | lowercase }}</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            {{ 'Starting' | translate:locale.language }}
+          </ion-label>
+          <ion-badge slot="end" color="primary">7 {{ 'Orders' | translate:locale.language | lowercase }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            {{ 'Before cutoff' | translate:locale.language }}
+          </ion-label>
+          <ion-badge slot="end" color="secondary">10 {{ 'Orders' | translate:locale.language | lowercase }}</ion-badge>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label>
+            {{ 'After cutoff' | translate:locale.language }}
+          </ion-label>
+          <ion-badge slot="end" color="tertiary">3 {{ 'Orders' | translate:locale.language | lowercase }}</ion-badge>
+        </ion-item>
+      </ion-list>
+      <canvas #totalOrders class="chart"></canvas>
+    </ion-card>
+    <ion-card>
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label>
+            <h1>{{ 'Processed' | translate:locale.language }}</h1>
+          </ion-label>
+          <ion-label class="ion-text-end" slot="end">
+            <h1>20 {{ 'Orders' | translate:locale.language | lowercase }}</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            {{ 'Shipped' | translate:locale.language }}
+          </ion-label>
+          <ion-badge slot="end" color="primary">7 {{ 'Orders' | translate:locale.language | lowercase }}</ion-badge>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            {{ 'Rejected' | translate:locale.language }}
+          </ion-label>
+          <ion-badge slot="end" color="secondary">10 {{ 'Orders' | translate:locale.language | lowercase }}</ion-badge>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label>
+            {{ 'Cancelled' | translate:locale.language }}
+          </ion-label>
+          <ion-badge slot="end" color="tertiary">3 {{ 'Orders' | translate:locale.language | lowercase }}</ion-badge>
+        </ion-item>
+      </ion-list>
+      <canvas #processedOrders class="chart"></canvas>
+    </ion-card>
+  </div>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="back()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

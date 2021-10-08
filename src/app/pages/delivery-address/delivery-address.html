@@ -1,0 +1,176 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{'New address'| translate:locale.language}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="saveAddress(addAddress.value,addressObj)"
+        [disabled]="!addAddress.valid"
+      >
+        {{'Save' | translate:locale.language}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="addAddress">
+    <ion-grid>
+      <ion-row
+        *ngIf="(customerId$ | async) !== '_NA_'"
+      >
+        <ion-col size="6">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'First Name' | translate:locale.language }}"
+              [(value)]="addressObj.toName"
+              type="text"
+              formControlName="toName"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'Last Name' | translate:locale.language }}"
+              [(value)]="addressObj.attnName"
+              type="text"
+              formControlName="attnName"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'Address line 1' | translate:locale.language }}"
+              type="text"
+              [value]="addressObj.route"
+              id="searching"
+              formControlName="address1"
+            >
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'Address line 2' | translate:locale.language }}"
+              type="text"
+              [value]="addressObj.sublocality_level_1"
+              formControlName="address2"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'City' | translate:locale.language }}"
+              type="text"
+              [value]="addressObj.administrative_area_level_2"
+              formControlName="city"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          <ion-item>
+            <ion-select
+              [(ngModel)]="addressObj.administrative_area_level_1"
+              multiple="false"
+              ngDefaultControl
+              formControlName="stateProvinceGeoId"
+            >
+              <ion-select-option *ngFor="let state of states"
+                >{{state.geoName}}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'Zipcode' | translate:locale.language }}"
+              type="text"
+              [value]="addressObj.postal_code"
+              maxlength="7"
+              formControlName="postalCode"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-select
+              [(ngModel)]="addressObj.country"
+              ngDefaultControl
+              multiple="false"
+              formControlName="countryGeoId"
+            >
+              <ion-select-option *ngFor="let country of countries"
+                >{{country.geoName}}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              placeholder="{{ 'Phone number' | translate:locale.language }}"
+              type="tel"
+              maxlength="14"
+              [value]="addressObj.phoneNumber"
+              formControlName="phoneNumber"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-item class="no-border" lines="none">
+        <ion-label>{{'This is a business address' | translate:locale.language}}</ion-label>
+        <ion-checkbox
+          [(ngModel)]="addressObj.isBusinessAddress"
+          ngDefaultControl
+          formControlName="isBusinessAddress"
+        ></ion-checkbox>
+      </ion-item>
+    </ion-grid>
+  </form>
+  <ion-list *ngIf="product  && product.productId">
+    <ion-radio-group [(ngModel)]="addressObj.payment" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{'Payment' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item lines="none">
+        <ion-radio value="payNow" slot="start"></ion-radio>
+        <ion-label>{{'Pay Now' | translate:locale.language}}</ion-label>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list *ngIf="product && product.productId">
+    <ion-radio-group [(ngModel)]="addressObj.deliveryInDays" ngDefaultControl>
+      <ion-list-header>
+        <ion-label>{{ 'Delivery Options' | translate:locale.language}}</ion-label>
+      </ion-list-header>
+      <ion-item (click)="addressObj.deliveryInDays = 'five'">
+        <ion-radio value="five" checked="true" slot="start"></ion-radio>
+        <ion-label>5-7 days</ion-label>
+        <ion-note slot="end" class="caption">{{ 'Free'| translate:locale.language }}</ion-note>
+      </ion-item>
+      <ion-item (click)="addressObj.deliveryInDays = 'two'">
+        <ion-radio value="two" slot="start"></ion-radio>
+        <ion-label>2-3 days</ion-label>
+        <ion-note slot="end" class="caption">{{ 'Free'| translate:locale.language }}</ion-note>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

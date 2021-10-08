@@ -1,0 +1,7 @@
+---
+title: Enabled search functionality on order history, search orders by orderId and
+  product name
+ticket_id: "#157gwz"
+merge_request: 675
+author: Ashish Suhane
+type: added

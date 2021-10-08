@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{ 'Order Details' | translate:locale.language }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="selectedItems.length === 0" (click)="unfillableOrderOrItem(selectedItems)">
+        {{ 'Save' | translate:locale.language }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card *ngFor="let item of data?.items">
+    <ion-card-content>
+      <ion-item no-padding lines="none">
+        <ion-thumbnail slot="start">
+          <image [src]="item?.images?.main?.small"></image>
+        </ion-thumbnail>
+        <p *ngIf="item?.brandName" class="overline" [innerHtml]="item?.brandName"></p>
+        <h2 [innerHtml]="item?.itemName" text-wrap></h2>
+      </ion-item>
+      <ion-item no-padding lines="none">
+        <ion-label text-wrap>
+          <ion-chip item-content *ngFor="let featureId of productProvider.getKeys(item.standardFeatures)">
+            <ion-icon [name]="featureId == 'SIZE' ? 'resize-outline' : 'color-palette-outline'">
+            </ion-icon>
+            <ion-label>{{item.standardFeatures[featureId].description}}</ion-label>
+          </ion-chip>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+    <ion-item class="border-top">
+      <ion-label>{{ 'Cannot fulfill' | translate:locale.language }}</ion-label>
+      <ion-checkbox (ionChange)="selectUnfillableItem(item)"></ion-checkbox>
+    </ion-item>
+  </ion-card>
+  <ion-item>
+    <ion-label>{{ 'Reason' | translate:locale.language }}</ion-label>
+    <ion-select multiple="false" [(ngModel)]="selectedReason" [disabled]="selectedItems.length === 0">
+      <ion-select-option *ngFor="let reason of unfillableReasons"
+        [value]="reason.id">{{reason.label}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <div class="ion-padding">
+    <ion-button expand="block" fill="outline" color="danger" (click)="unfillableOrderOrItem(data.items)">
+      {{'Cannot fulfill entire order' | translate:locale.language}}
+    </ion-button>
+  </div>
+</ion-content>
