@@ -4,22 +4,22 @@ export const environment = {
     "appName": "Clienteling Dev",
     "version": "0.0.0",
     "PRIMARY_FETURE": "COLOR",
-    "GOOGLE_ACCOUNT": "accounts/100642139089425989218/",
+    "GOOGLE_ACCOUNT": "__Please use your own Account ID__",
     "GOOGLE_MY_BUSINESS_URL": "https://mybusiness.googleapis.com/v4/",
     "CUSTOMER_ANALYTICS":
-      "https://www.enalito.com:8443/RAService/mobileapp/api/rest/getreco/5e68e969e4b0f1ea779f97dc",
+      "__Create your own analytics uri with analito__",
     "BASE_URL": "https://dev-dc.hotwax.io/rest/s1/clienteling/v1",
     "RESOURCE_URL": "https://dev-resources.hotwax.io/",
     "DEFAULT_CURRENCY": "USD",
-    "CLOVER_APP_ID": "ZDW1S25K67CZ4",
+    "CLOVER_APP_ID": "__Please use your APP__",
     "CLOVER_APP_VERSION": "1.0.0",
     "CLOVER_ENVIRONMENT": "SANDBOX",
-    "CLOVER_GO_API_KEY": "OAFiGwUZWEIHlprCZZs2jmqrInLGURJ7",
+    "CLOVER_GO_API_KEY": "__Please use your API KEY__",
     "CLOVER_GO_SECRET":
-      "AA7116E19B85A462F6DCDCE0DA4EE55F9EE85728DE1CBD0BE73B77BEC5308D01",
-    "CLOVER_ACCESS_TOKEN": "f6ac8eb6-c55a-e144-de4c-c97550b63ce7",
-    "CLOVER_CLIENT_ID": "ZDW1S25K67CZ4",
-    "CLOVER_CLIENT_SECRET": "0477ce63-99a8-a397-0aff-1c682987d9e1",
+      "__Please use your own secrets__",
+    "CLOVER_ACCESS_TOKEN": "__Please use own access token__",
+    "CLOVER_CLIENT_ID": "__Please use your own ID__",
+    "CLOVER_CLIENT_SECRET": "__Please use your own secret__",
     "CLOVER_BASE_URL": "sandbox.dev.clover.com",
     "DEFAULT_IMAGE": "assets/imgs/defaultImage.png",
     "CACHE_DEFAULT_TTL": 3600,
@@ -84,7 +84,7 @@ export const environment = {
           }
       }
     },
-    "SHOPIFY_API_KEY": "e3c434a3b45b883fcf2c92850174d114",
-    "SHOPIFY_REDIRECT_URI": "https://clienteling-dev.firebaseapp.com/shopify",
+    "SHOPIFY_API_KEY": "___Please Put Your Own KEY___",
+    "SHOPIFY_REDIRECT_URI": "___Please Put Your Own URI___",
     "SHOPIFY_SCOPES": "read_products,read_content" // TODO Define it based upon the use
   };
