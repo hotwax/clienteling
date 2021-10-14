@@ -1,3 +1,8 @@
 .feature-color {
   border: 1px solid;
 }
+.product_title{
+  &:hover{
+    text-decoration: underline;
+  }
+}
