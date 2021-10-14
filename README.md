@@ -122,4 +122,8 @@ Documentation is available in the documentation folder and can be viewed by open
 - If you are getting `Sass Error` like `Undefined variable` 
    `git submodule update --recursive --remote`
 
+### Contribution Guideline
+
+`Please do all changes and in your local systems branch and make a pull request to remote branch not in master branch of remote repo`
+
 
