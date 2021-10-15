@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="product_title"> {{'Products' | translate:locale.language}} </ion-title>
+    <ion-title > {{'Products' | translate:locale.language}} </ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="scanBarcode()">
         <ion-icon slot="icon-only" name="barcode"></ion-icon>
@@ -42,16 +42,16 @@
     </ion-item>
     <!--Product list view.-->
     <ion-list [@listAnimation]="listSize">
-      <ion-item
+      <ion-item 
         *ngFor="let product of productList$ | async"
-        (click)="viewProduct(product.productId)"
+        (click)="viewProduct(product.productId)" class="product_clickable"
       >
-        <ion-thumbnail slot="start">
+        <ion-thumbnail slot="start" >
           <image [src]="product.images.small"></image>
         </ion-thumbnail>
         <ion-label class="ion-text-wrap">
           <p *ngIf="product?.brandName" class="overline" [innerHtml]="product?.brandName"></p>
-          <h2 [innerHtml]="product?.name"></h2>
+          <h2 [innerHtml]="product?.name" class="product_title"></h2>
           <!--Product color.-->
           <ul *ngIf="product.features.COLOR" class="feature-list main-feature">
             <!--ToDo: Currently we are using color name in the styling, later we will have color code as per the updated response of API (https://app.clickup.com/t/27ha86)-->
