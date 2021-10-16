@@ -32,6 +32,7 @@ export class WidgetUtils {
     this.isLoading = true;
     return await this.loadingCtrl.create({
       message: msg,
+      backdropDismiss: true
     }).then(loader => {
       loader.present().then(() => {
         if (!this.isLoading) {
