@@ -5,11 +5,11 @@
       <ion-label position="floating">{{ 'Username' | translate:locale.language }}</ion-label>
       <!-- The record of userlogin should exist in FacilityParty entity as the role of sales agent otherwise we can not have the proper response from stores API and that response will
         further used for initialising the value of pathalias in all over the app, for now change the default value of username to run the flow properly -->
-      <ion-input type="text" value="justin.wilson" #username></ion-input>
+      <ion-input type="text" value="" #username></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">{{ 'Password' | translate:locale.language }}</ion-label>
-      <ion-input type="password" value="hotwax@786" #password></ion-input>
+      <ion-input type="password" value="" #password></ion-input>
     </ion-item>
     <div class="ion-padding">
       <ion-button expand="block" (click)="login(username.value, password.value)">
