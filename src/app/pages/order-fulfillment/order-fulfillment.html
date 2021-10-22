@@ -7,8 +7,9 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <div style="display:flex">
   <ion-toolbar>
-    <ion-searchbar
+    <ion-searchbar class="ion_searchbar"
       placeholder="{{ 'Search orders'| translate:locale.language }}"
       [(ngModel)]="orderId"
       ngDefaultControl
@@ -27,6 +28,7 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
+</div>
 </ion-header>
 <ion-content>
   <div *ngIf="pickupSegment === 'orders'" class="orders">

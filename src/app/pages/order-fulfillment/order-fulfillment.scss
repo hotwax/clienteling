@@ -7,8 +7,17 @@ ion-note > p {
   gap: 10px;
   align-items: start;
 }
+
+.ion_toolbar{
+  display: flex;  
+}
+.ion_searchbar{
+  width: 90%;
+}
+
 @media (max-width: 343px) {
   .orders {
     grid-template-columns: auto
   }
 }
+
