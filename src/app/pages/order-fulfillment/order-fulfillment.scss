@@ -12,7 +12,7 @@ ion-note > p {
   display: flex;  
 }
 .ion_searchbar{
-  width: 90%;
+  flex-basis: 50%;
 }
 
 @media (max-width: 343px) {
