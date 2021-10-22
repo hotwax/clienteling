@@ -7,8 +7,26 @@ ion-note > p {
   gap: 10px;
   align-items: start;
 }
-@media (max-width: 343px) {
+
+ion-header {
+  display: grid;
+  grid-template-areas: 
+  "headerToolbar headerToolbar"
+  "searchToolbar buttonsToolbar"
+}
+ion-header .headerToolbar{grid-area: headerToolbar;}
+ion-header .searchToolbar{grid-area: searchToolbar;}
+ion-header .buttonsToolbar{grid-area: buttonsToolbar;}
+
+@media (max-width: 500px) {
   .orders {
     grid-template-columns: auto
+  }
+  ion-header {
+    display: grid;
+    grid-template-areas: 
+    "headerToolbar"
+    "searchToolbar"
+    "buttonsToolbar"
   }
 }

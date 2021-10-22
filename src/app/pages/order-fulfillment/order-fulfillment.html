@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="headerToolbar">
     <ion-title>{{ 'Order Fulfillment' | translate:locale.language }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="dashboard()">
@@ -7,8 +7,7 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar>
-    <span style="display : flex;">
+  <ion-toolbar class="searchToolbar">
       <ion-searchbar
         placeholder="{{ 'Search orders'| translate:locale.language }}"
         [(ngModel)]="orderId"
@@ -17,15 +16,16 @@
         (ionClear)="clearSearchbar()"
         >
       </ion-searchbar>    
-      <ion-segment (ionChange)="pickupSegmentChanged($event)" [value]="pickupSegment">
-        <ion-segment-button value="orders">
-          <ion-label>{{'Orders'| translate:locale.language}}</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="packedOrders">
-          <ion-label>{{'Packed Orders'| translate:locale.language}}</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-    </span>
+  </ion-toolbar>
+  <ion-toolbar class="buttonsToolbar">
+    <ion-segment (ionChange)="pickupSegmentChanged($event)" [value]="pickupSegment">
+      <ion-segment-button value="orders">
+        <ion-label>{{'Orders'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="packedOrders">
+        <ion-label>{{'Packed Orders'| translate:locale.language}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 <ion-content>
