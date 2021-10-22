@@ -8,9 +8,37 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ShoppingCartState } from '../../shared/store/shopping-cart/shopping-cart.state';
 
+import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
+  styleUrls: ['tabs1.scss'],
   selector: 'page-tabs',
   templateUrl: 'tabs.html',
+  animations: [
+    trigger('chipAnimation', [
+      transition('* => active', [
+        style({
+          opacity: 0,
+        }),
+        animate(
+          '1000ms',
+          style({
+            opacity: 1,
+          }),
+        ),
+      ]),
+      transition('* => inactive', [
+        style({
+          opacity: 0,
+        }),
+        animate(
+          '1000ms',
+          style({
+            opacity: 1,
+          }),
+        ),
+      ]),
+    ]),
+  ]
 })
 export class TabsPage {
   tab1 = 'HomePage';
