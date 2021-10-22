@@ -8,24 +8,24 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar
-      placeholder="{{ 'Search orders'| translate:locale.language }}"
-      [(ngModel)]="orderId"
-      ngDefaultControl
-      (keyup.enter)="search($event)"
-      (ionClear)="clearSearchbar()"
-      >
-    </ion-searchbar>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-segment (ionChange)="pickupSegmentChanged($event)" [value]="pickupSegment">
-      <ion-segment-button value="orders">
-        <ion-label>{{'Orders'| translate:locale.language}}</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="packedOrders">
-        <ion-label>{{'Packed Orders'| translate:locale.language}}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+    <span style="display : flex;">
+      <ion-searchbar
+        placeholder="{{ 'Search orders'| translate:locale.language }}"
+        [(ngModel)]="orderId"
+        ngDefaultControl
+        (keyup.enter)="search($event)"
+        (ionClear)="clearSearchbar()"
+        >
+      </ion-searchbar>    
+      <ion-segment (ionChange)="pickupSegmentChanged($event)" [value]="pickupSegment">
+        <ion-segment-button value="orders">
+          <ion-label>{{'Orders'| translate:locale.language}}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="packedOrders">
+          <ion-label>{{'Packed Orders'| translate:locale.language}}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </span>
   </ion-toolbar>
 </ion-header>
 <ion-content>
