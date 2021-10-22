@@ -1,0 +1,173 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+ul.feature-list {
+  margin: 0px !important;
+  display: inline-block;
+  padding: 0px !important;
+}
+
+ul.feature-list.main-feature {
+  display: inline-block;
+  margin-right: 2px !important;
+}
+
+.feature-list li {
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  margin-left: 5px;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  letter-spacing: 0.25px;
+  color: #666;
+  mix-blend-mode: normal;
+}
+
+.feature-list.main-feature li {
+  width: 10px;
+  height: 10px;
+}
+
+.feature-list li:first-child {
+  margin: 0;
+}
+.selected-feature {
+  padding-left: 0px !important;
+  li {
+    width: auto !important;
+    height: auto !important;
+  }
+}
+.caption {
+  font-size: 12px !important;
+  line-height: 16px !important;
+  letter-spacing: 0.4px !important;
+}
+
+.extended-fab {
+  width: 100%;
+  padding: 0px 16px;
+  ion-fab-button {
+    width: 100%;
+    --border-radius: 64px;
+    height: 48px;
+    text-transform: uppercase;
+  }
+}
+.ionic3-star-rating {
+  button {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0;
+    vertical-align: top;
+    margin-left: -3px;
+  }
+  ion-icon {
+    font-size: 18px !important;
+  }
+}
+text-avatar {
+  text-transform: capitalize;
+}
+.overline {
+  font-weight: 500 !important;
+  font-size: 10px !important;
+  line-height: 16px !important;
+  letter-spacing: 1.5px;
+  color: #666;
+  text-transform: uppercase !important;
+}
+.detail-img {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+img {
+  mix-blend-mode: multiply;
+  object-fit: contain;
+  height: 100%
+}
+.active {
+  background: #666;
+  color: #ffffff;
+}
+ion-chip {
+  > ion-label {
+    line-height: 32px !important;
+  }
+  > ion-icon {
+    background-color: transparent !important;
+    line-height: 32px !important;
+    // color: color($colors, primary) !important;
+  }
+}
+.capitalize-feature {
+  text-transform: capitalize;
+}
+ion-select {
+  max-width: 100% !important;
+}
+ion-slides {
+  height: auto;
+}
+h2 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.empty-state {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+.empty-state-text {
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.border-top {
+  border-top: 1px solid #000;
+}
+/* This css is making sure all recommendation cards have the same height and are as tall as the tallest card in that list.*/
+.swiper-slide {
+  align-items: stretch;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+ion-segment-button {
+  min-width: auto;
+}
+.line-through {
+  text-decoration: line-through;
+}
