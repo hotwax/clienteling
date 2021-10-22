@@ -92,6 +92,13 @@ Documentation is available in the documentation folder and can be viewed by open
 - For development store, navigate to /shopify page and input shopify store URL
 - For demo store, Generate custom link and install 
 
+
+### UI/UX Source
+- Figma file : [
+https://www.figma.com/community/file/885791511781717756/Ionic-5-Material-UI-Kit-(Community)](
+https://www.figma.com/community/file/885791511781717756/Ionic-5-Material-UI-Kit-(Community))
+
+
 ## Build Issues
 ### If you face any error while running the app on a local machine, please refer [this](https://stackoverflow.com/questions/58973192/uncaught-typeerror-object-is-not-a-function-when-using-angular-google-maps).
 - Run following commands to fix the issue
