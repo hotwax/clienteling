@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { ShoppingCartState } from '../../shared/store/shopping-cart/shopping-cart.state';
 
 @Component({
-  styleUrls : ['tabs.css'],
+  styleUrls : ['tabs.scss'],
   selector: 'page-tabs',
   templateUrl: 'tabs.html',
 })
